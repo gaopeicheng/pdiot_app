@@ -10,8 +10,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
@@ -24,7 +25,10 @@ import com.specknet.pdiotapp.utils.Constants
 import com.specknet.pdiotapp.utils.RESpeckLiveData
 import com.specknet.pdiotapp.utils.RespeckData
 import com.specknet.pdiotapp.utils.ThingyLiveData
+import java.io.*
+import java.lang.Exception
 import java.lang.StringBuilder
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.fixedRateTimer
@@ -44,8 +48,7 @@ class LiveDataActivity : AppCompatActivity() {
     lateinit var dataSet_thingy_accel_y: LineDataSet
     lateinit var dataSet_thingy_accel_z: LineDataSet
 
-    private lateinit var thingyOutputData: StringBuilder
-
+    private lateinit var  RecordingButton: Button
 
     var time = 0f
     lateinit var allRespeckData: LineData
@@ -63,6 +66,20 @@ class LiveDataActivity : AppCompatActivity() {
     lateinit var thingyLiveUpdateReceiver: BroadcastReceiver
     lateinit var looperRespeck: Looper
     lateinit var looperThingy: Looper
+
+    var sensorType = ""
+    lateinit var sensorTypeSpinner: Spinner
+    var thingyOn = false
+    var respeckOn = false
+
+    private var mIsRespeckRecording = false
+    private var mIsThingyRecording = false
+    private lateinit var respeckOutputData: StringBuilder
+    private lateinit var thingyOutputData: StringBuilder
+
+    var counttime = 0
+    var respeck_data = Array(50){FloatArray(6)}
+    var thingy_data = Array(50){FloatArray(9)}
 
 
     val filterTestRespeck = IntentFilter(Constants.ACTION_RESPECK_LIVE_BROADCAST)
@@ -89,6 +106,10 @@ class LiveDataActivity : AppCompatActivity() {
         var Respeckprediction = findViewById<TextView>(R.id.prediction)
         var Respeckconfidence = findViewById<TextView>(R.id.confidence)
 
+        setupSpinner()
+
+        setupButton()
+
         setupCharts()
 
         // set up the broadcast receiver
@@ -104,6 +125,8 @@ class LiveDataActivity : AppCompatActivity() {
                     val liveData =
                         intent.getSerializableExtra(Constants.RESPECK_LIVE_DATA) as RESpeckLiveData
                     Log.d("Live", "onReceive: liveData = " + liveData)
+
+
 
                     // get all relevant intent contents
                     val x = liveData.accelX
@@ -132,6 +155,20 @@ class LiveDataActivity : AppCompatActivity() {
                     predictedrespeckActivity = "Sitting/Standing"
                     predictionrespeckConfidence = (30..40).shuffled().last().toString()
 
+                    if (mIsRespeckRecording) {
+                        val output = liveData.phoneTimestamp.toString() + "," +
+                                liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
+                                liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "\n"
+                        for(i in 0 until 50){
+                            respeck_data[i][0] = liveData.accelX
+                            respeck_data[i][1] = liveData.accelY
+                            respeck_data[i][2] = liveData.accelZ
+                            respeck_data[i][3] = liveData.gyro.x
+                            respeck_data[i][4] = liveData.gyro.y
+                            respeck_data[i][5] = liveData.gyro.z
+                        }
+                        respeckOutputData.append(output)
+                    }
 
                     runOnUiThread {
                         respeck_accel_x.text = "accel_x = " + x.toString()
@@ -141,6 +178,8 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_gyro_y.text = "gyro_y = " + groy_y.toString()
                         respeck_gyro_z.text = "gyro_z = " + groy_z.toString()
                         Respeckprediction.text = "Activity: " + predictedrespeckActivity
+                        counttime++;
+                        count();
                     }
 
                     Timer().schedule(timerTask {
@@ -151,6 +190,8 @@ class LiveDataActivity : AppCompatActivity() {
 
                     time += 1
                     updateGraph("respeck", x, y, z)
+
+                    respeckOn = true
 
                 }
             }
@@ -182,14 +223,39 @@ class LiveDataActivity : AppCompatActivity() {
                     val y = liveData.accelY
                     val z = liveData.accelZ
 
+                    if (mIsThingyRecording) {
+                        val output = liveData.phoneTimestamp.toString() + "," +
+                                liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
+                                liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "," +
+                                liveData.mag.x + "," + liveData.mag.y + "," + liveData.mag.z + "\n"
+
+                        for(i in 0 until 50){
+                            thingy_data[i][0] = liveData.accelX
+                            thingy_data[i][1] = liveData.accelY
+                            thingy_data[i][2] = liveData.accelZ
+                            thingy_data[i][3] = liveData.gyro.x
+                            thingy_data[i][4] = liveData.gyro.y
+                            thingy_data[i][5] = liveData.gyro.z
+                            thingy_data[i][6] = liveData.mag.x
+                            thingy_data[i][7] = liveData.mag.y
+                            thingy_data[i][8] = liveData.mag.z
+                            counttime++;
+                            count();
+                        }
+
+                        thingyOutputData.append(output)
+                    }
+
                     runOnUiThread {
-                        thingy_accel.text = getString(R.string.thingy_accel, liveData.accelX, liveData.accelY, liveData.accelZ)
-                        thingy_gyro.text = getString(R.string.thingy_gyro, liveData.gyro.x, liveData.gyro.y, liveData.gyro.z)
-                        thingy_mag.text = getString(R.string.thingy_mag, liveData.mag.x, liveData.mag.y, liveData.mag.z)
+                        thingy_accel.text = "accel =("+ liveData.accelX+ liveData.accelY+ liveData.accelZ+")"
+                        thingy_gyro.text = "gyro =("+ liveData.gyro.x+ liveData.gyro.y+ liveData.gyro.z+")"
+                        thingy_mag.text = "mag =("+ liveData.mag.x+ liveData.mag.y+ liveData.mag.z+")"
                     }
 
                     time += 1
                     updateGraph("thingy", x, y, z)
+
+                    thingyOn = true
 
                 }
             }
@@ -325,7 +391,157 @@ class LiveDataActivity : AppCompatActivity() {
             }
         }
 
+    }
 
+    private fun disableView(view: View) {
+        view.isClickable = false
+        view.isEnabled = false
+    }
+
+    private fun enableView(view: View) {
+        view.isClickable = true
+        view.isEnabled = true
+    }
+
+    private fun setupSpinner(){
+        sensorTypeSpinner = findViewById(R.id.sensor_type_spinner)
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.sensor_type_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sensorTypeSpinner.adapter = adapter
+        }
+
+        sensorTypeSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, viwq: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                sensorType = selectedItem
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                sensorType = "Respeck"
+            }
+        }
+
+    }
+
+    private fun setupButton(){
+        RecordingButton = findViewById(R.id.start_button)
+
+
+        RecordingButton.setOnClickListener {
+
+            getInputs()
+
+            if (sensorType == "Respeck" && !respeckOn) {
+                Toast.makeText(this, "Respeck is not on! Check connection.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+            if (sensorType == "Thingy" && !thingyOn) {
+                Toast.makeText(this, "Thingy is not on! Check connection.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            Toast.makeText(this, "Starting recording", Toast.LENGTH_SHORT).show()
+
+            disableView(RecordingButton)    //时间过了记得enable
+
+            disableView(sensorTypeSpinner)
+
+            startRecording()
+        }
+    }
+
+    private fun startRecording() {
+
+        if (sensorType.equals("Thingy")) {
+            mIsThingyRecording = true    //时间过了之后记得false
+            mIsRespeckRecording = false
+        }
+        else {
+            mIsRespeckRecording = true
+            mIsThingyRecording = false
+        }
+    }
+
+    private fun count(){
+        if(counttime == 50){
+            Toast.makeText(this, "Stop recording", Toast.LENGTH_SHORT).show()
+            mIsThingyRecording = false
+            mIsRespeckRecording = false
+            enableView(RecordingButton)
+            enableView(sensorTypeSpinner)
+            counttime = 0;
+        }
+    }
+
+    private fun getInputs(){
+        sensorType = sensorTypeSpinner.selectedItem.toString()
+    }
+
+    private fun saveRecording() {
+        val currentTime = System.currentTimeMillis()
+        var formattedDate = ""
+        try {
+            formattedDate = SimpleDateFormat("dd-MM-yyyy_HH-mm-ss", Locale.UK).format(Date())
+        } catch (e: Exception) {
+            formattedDate = currentTime.toString()
+        }
+        val filename = "${sensorType}_${formattedDate}.csv" // TODO format this to human readable
+
+        val file = File(getExternalFilesDir(null), filename)
+
+        val dataWriter: BufferedWriter
+
+        // Create file for current day and append header, if it doesn't exist yet
+        try {
+            val exists = file.exists()
+            dataWriter = BufferedWriter(OutputStreamWriter(FileOutputStream(file, true)))
+
+            if (!exists) {
+
+                // the header columns in here
+                dataWriter.append("# Sensor type: $sensorType").append("\n")
+
+                if (sensorType.equals("Thingy")) {
+                    dataWriter.write(Constants.RECORDING_CSV_HEADER_THINGY)
+                }
+                else {
+                    dataWriter.write(Constants.RECORDING_CSV_HEADER_RESPECK)
+                }
+                dataWriter.newLine()
+                dataWriter.flush()
+            }
+
+            if (sensorType.equals("Thingy")) {
+                if (thingyOutputData.isNotEmpty()) {
+                    dataWriter.write(thingyOutputData.toString())
+                    dataWriter.flush()
+
+                }
+            }
+            else {
+                if (respeckOutputData.isNotEmpty()) {
+                    dataWriter.write(respeckOutputData.toString())
+                    dataWriter.flush()
+                }
+            }
+
+            dataWriter.close()
+
+            respeckOutputData = StringBuilder()
+            thingyOutputData = StringBuilder()
+
+            Toast.makeText(this, "Recording saved!", Toast.LENGTH_SHORT).show()
+        }
+        catch (e: IOException) {
+            Toast.makeText(this, "Error while saving recording!", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -335,5 +551,8 @@ class LiveDataActivity : AppCompatActivity() {
         unregisterReceiver(thingyLiveUpdateReceiver)
         looperRespeck.quit()
         looperThingy.quit()
+        if (mIsThingyRecording || mIsRespeckRecording) {
+            saveRecording()
+        }
     }
 }

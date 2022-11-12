@@ -220,16 +220,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confidence_label"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/sensor"
+        app:layout_constraintTop_toBottomOf="@id/confidence"
+        android:gravity="center">
+
+            <TextView
+                android:id="@+id/sensor_type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensor type:"
+                android:gravity="center"
+                android:paddingStart="10dp"/>
+
+            <Spinner
+                android:id="@+id/sensor_type_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+
         <ImageButton
             android:id="@+id/start_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/vd_play"
-            android:layout_marginLeft="155dp"
+            android:layout_marginLeft="160dp"
             android:background="@drawable/button_bg_round"
             app:layout_constraintTop_toBottomOf="@+id/confidence" />
 
-
+         </LinearLayout>
     </LinearLayout>
 
 
