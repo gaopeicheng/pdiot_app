@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sensor_type_array">
+        <item>Respeck</item>
+        <item>Thingy</item>
+    </string-array>
+
+    <string-array name="activity_type_array">
+        <item>Sitting</item>
+        <item>Sitting bent forward</item>
+        <item>Sitting bent backward</item>
+        <item>Standing</item>
+        <item>Lying down on back</item>
+        <item>Lying down left</item>
+        <item>Lying down right</item>
+        <item>Lying down on stomach</item>
+        <item>Walking at normal speed</item>
+        <item>Running</item>
+        <item>Climbing stairs</item>
+        <item>Descending stairs</item>
+        <item>Movement</item>
+        <item>Desk work</item>
+        <item>Falling on knees</item>
+        <item>Falling on the left</item>
+        <item>Falling on the right</item>
+        <item>Falling on the back</item>
+    </string-array>
+
+</resources>
