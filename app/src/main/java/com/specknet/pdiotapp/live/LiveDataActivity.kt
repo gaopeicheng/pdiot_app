@@ -48,7 +48,7 @@ class LiveDataActivity : AppCompatActivity() {
     lateinit var dataSet_thingy_accel_y: LineDataSet
     lateinit var dataSet_thingy_accel_z: LineDataSet
 
-    private lateinit var  RecordingButton: Button
+    private lateinit var  RecordingButton: ImageButton
 
     var time = 0f
     lateinit var allRespeckData: LineData
@@ -153,21 +153,24 @@ class LiveDataActivity : AppCompatActivity() {
 
 //                    val predictionWithConfidence = getPrediction()
                     predictedrespeckActivity = "Sitting/Standing"
-                    predictionrespeckConfidence = (30..40).shuffled().last().toString()
+//                    predictionrespeckConfidence = (30..40).shuffled().last().toString()
 
                     if (mIsRespeckRecording) {
                         val output = liveData.phoneTimestamp.toString() + "," +
                                 liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
                                 liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "\n"
-                        for(i in 0 until 50){
-                            respeck_data[i][0] = liveData.accelX
-                            respeck_data[i][1] = liveData.accelY
-                            respeck_data[i][2] = liveData.accelZ
-                            respeck_data[i][3] = liveData.gyro.x
-                            respeck_data[i][4] = liveData.gyro.y
-                            respeck_data[i][5] = liveData.gyro.z
+
+                        if(counttime<50){
+                            respeck_data[counttime][0] = liveData.accelX
+                            respeck_data[counttime][1] = liveData.accelY
+                            respeck_data[counttime][2] = liveData.accelZ
+                            respeck_data[counttime][3] = liveData.gyro.x
+                            respeck_data[counttime][4] = liveData.gyro.y
+                            respeck_data[counttime][5] = liveData.gyro.z
+                            counttime++
+                            count()
                         }
-                        respeckOutputData.append(output)
+//                        respeckOutputData.append(output)
                     }
 
                     runOnUiThread {
@@ -178,15 +181,7 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_gyro_y.text = "gyro_y = " + groy_y.toString()
                         respeck_gyro_z.text = "gyro_z = " + groy_z.toString()
                         Respeckprediction.text = "Activity: " + predictedrespeckActivity
-                        counttime++;
-                        count();
                     }
-
-                    Timer().schedule(timerTask {
-                        runOnUiThread {
-                            Respeckconfidence.text = predictionrespeckConfidence + "%"
-                        }
-                    },0,3000)
 
                     time += 1
                     updateGraph("respeck", x, y, z)
@@ -218,6 +213,8 @@ class LiveDataActivity : AppCompatActivity() {
                         intent.getSerializableExtra(Constants.THINGY_LIVE_DATA) as ThingyLiveData
                     Log.d("Live", "onReceive: liveData = " + liveData)
 
+                    val Nowtimestampe = liveData.phoneTimestamp
+
                     // get all relevant intent contents
                     val x = liveData.accelX
                     val y = liveData.accelY
@@ -229,18 +226,18 @@ class LiveDataActivity : AppCompatActivity() {
                                 liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "," +
                                 liveData.mag.x + "," + liveData.mag.y + "," + liveData.mag.z + "\n"
 
-                        for(i in 0 until 50){
-                            thingy_data[i][0] = liveData.accelX
-                            thingy_data[i][1] = liveData.accelY
-                            thingy_data[i][2] = liveData.accelZ
-                            thingy_data[i][3] = liveData.gyro.x
-                            thingy_data[i][4] = liveData.gyro.y
-                            thingy_data[i][5] = liveData.gyro.z
-                            thingy_data[i][6] = liveData.mag.x
-                            thingy_data[i][7] = liveData.mag.y
-                            thingy_data[i][8] = liveData.mag.z
-                            counttime++;
-                            count();
+                        if(counttime<50){
+                            thingy_data[counttime][0] = liveData.accelX
+                            thingy_data[counttime][1] = liveData.accelY
+                            thingy_data[counttime][2] = liveData.accelZ
+                            thingy_data[counttime][3] = liveData.gyro.x
+                            thingy_data[counttime][4] = liveData.gyro.y
+                            thingy_data[counttime][5] = liveData.gyro.z
+                            thingy_data[counttime][6] = liveData.mag.x
+                            thingy_data[counttime][7] = liveData.mag.y
+                            thingy_data[counttime][8] = liveData.mag.z
+                            counttime++
+                            count()
                         }
 
                         thingyOutputData.append(output)
@@ -449,12 +446,13 @@ class LiveDataActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Starting recording", Toast.LENGTH_SHORT).show()
 
-            disableView(RecordingButton)    //时间过了记得enable
-
-            disableView(sensorTypeSpinner)
+//            disableView(RecordingButton)    //时间过了记得enable
+//
+//            disableView(sensorTypeSpinner)
 
             startRecording()
         }
+
     }
 
     private fun startRecording() {
@@ -470,13 +468,17 @@ class LiveDataActivity : AppCompatActivity() {
     }
 
     private fun count(){
-        if(counttime == 50){
+        if(counttime == 49){
             Toast.makeText(this, "Stop recording", Toast.LENGTH_SHORT).show()
             mIsThingyRecording = false
             mIsRespeckRecording = false
-            enableView(RecordingButton)
-            enableView(sensorTypeSpinner)
+//            enableView(RecordingButton)
+//            enableView(sensorTypeSpinner)
             counttime = 0;
+            for(i in 0 until 50)
+                for(j in 0 until 6) {
+                    Log.v("datarecord:", respeck_data[i][j].toString())
+                }
         }
     }
 
