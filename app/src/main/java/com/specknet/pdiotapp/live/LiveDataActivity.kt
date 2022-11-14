@@ -72,14 +72,14 @@ class LiveDataActivity : AppCompatActivity() {
     var thingyOn = false
     var respeckOn = false
 
-    private var mIsRespeckRecording = false
-    private var mIsThingyRecording = false
+    private var mIsRespeckRecording = false  //when respeck is recording, it's true
+    private var mIsThingyRecording = false   //when thingy is recording, it's true
     private lateinit var respeckOutputData: StringBuilder
     private lateinit var thingyOutputData: StringBuilder
 
-    var counttime = 0
-    var respeck_data = Array(50){FloatArray(6)}
-    var thingy_data = Array(50){FloatArray(9)}
+    var counttime = 0   //accumulate 50 data
+    var respeck_data = Array(50){FloatArray(6)}  //respeck array to store 50*6 data
+    var thingy_data = Array(50){FloatArray(9)}   //thingy array to store 50*9 data
 
 
     val filterTestRespeck = IntentFilter(Constants.ACTION_RESPECK_LIVE_BROADCAST)
@@ -149,7 +149,7 @@ class LiveDataActivity : AppCompatActivity() {
 //                            breathingSignal = 0f
 //                        )
 
-         //           val predictionWithConfidence = getPrediction(data)
+         //           val predictionWithConfidence = getPrediction(data) //come from the model
 
 //                    val predictionWithConfidence = getPrediction()
                     predictedrespeckActivity = "Sitting/Standing"
@@ -160,7 +160,7 @@ class LiveDataActivity : AppCompatActivity() {
                                 liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
                                 liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "\n"
 
-                        if(counttime<50){
+                        if(counttime<50){   //store 50*6 data into the respeck array
                             respeck_data[counttime][0] = liveData.accelX
                             respeck_data[counttime][1] = liveData.accelY
                             respeck_data[counttime][2] = liveData.accelZ
@@ -173,7 +173,7 @@ class LiveDataActivity : AppCompatActivity() {
 //                        respeckOutputData.append(output)
                     }
 
-                    runOnUiThread {
+                    runOnUiThread {    //real-time data show on the ui
                         respeck_accel_x.text = "accel_x = " + x.toString()
                         respeck_accel_y.text = "accel_y = " + y.toString()
                         respeck_accel_z.text = "accel_z = " + z.toString()
@@ -186,7 +186,7 @@ class LiveDataActivity : AppCompatActivity() {
                     time += 1
                     updateGraph("respeck", x, y, z)
 
-                    respeckOn = true
+                    respeckOn = true    //the respeck bluetooth is on
 
                 }
             }
@@ -213,8 +213,6 @@ class LiveDataActivity : AppCompatActivity() {
                         intent.getSerializableExtra(Constants.THINGY_LIVE_DATA) as ThingyLiveData
                     Log.d("Live", "onReceive: liveData = " + liveData)
 
-                    val Nowtimestampe = liveData.phoneTimestamp
-
                     // get all relevant intent contents
                     val x = liveData.accelX
                     val y = liveData.accelY
@@ -226,7 +224,7 @@ class LiveDataActivity : AppCompatActivity() {
                                 liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "," +
                                 liveData.mag.x + "," + liveData.mag.y + "," + liveData.mag.z + "\n"
 
-                        if(counttime<50){
+                        if(counttime<50){   //store 50*9 into thing data array
                             thingy_data[counttime][0] = liveData.accelX
                             thingy_data[counttime][1] = liveData.accelY
                             thingy_data[counttime][2] = liveData.accelZ
@@ -446,7 +444,7 @@ class LiveDataActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Starting recording", Toast.LENGTH_SHORT).show()
 
-//            disableView(RecordingButton)    //时间过了记得enable
+//            disableView(RecordingButton)    //
 //
 //            disableView(sensorTypeSpinner)
 
@@ -458,7 +456,7 @@ class LiveDataActivity : AppCompatActivity() {
     private fun startRecording() {
 
         if (sensorType.equals("Thingy")) {
-            mIsThingyRecording = true    //时间过了之后记得false
+            mIsThingyRecording = true    
             mIsRespeckRecording = false
         }
         else {
@@ -467,11 +465,11 @@ class LiveDataActivity : AppCompatActivity() {
         }
     }
 
-    private fun count(){
+    private fun count(){   //once the thingy or respeck data array is full ,then stop recording
         if(counttime == 49){
             Toast.makeText(this, "Stop recording", Toast.LENGTH_SHORT).show()
-            mIsThingyRecording = false
-            mIsRespeckRecording = false
+            mIsThingyRecording = false   //stop the recording
+            mIsRespeckRecording = false  //stop the recording
 //            enableView(RecordingButton)
 //            enableView(sensorTypeSpinner)
             counttime = 0;
@@ -486,7 +484,7 @@ class LiveDataActivity : AppCompatActivity() {
         sensorType = sensorTypeSpinner.selectedItem.toString()
     }
 
-    private fun saveRecording() {
+    private fun saveRecording() {    //to produce a csv file (potentially retain in case using in the future)
         val currentTime = System.currentTimeMillis()
         var formattedDate = ""
         try {
