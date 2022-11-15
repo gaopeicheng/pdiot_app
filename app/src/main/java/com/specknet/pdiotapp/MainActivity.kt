@@ -23,10 +23,10 @@ import com.specknet.pdiotapp.onboarding.OnBoardingActivity
 import com.specknet.pdiotapp.utils.Constants
 import com.specknet.pdiotapp.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
-import org.tensorflow.lite.support.common.FileUtil
-import java.io.FileInputStream
+//import org.tensorflow.lite.support.common.FileUtil
+//import java.io.FileInputStream
 import java.nio.ByteBuffer
-import java.nio.channels.FileChannel
+//import java.nio.channels.FileChannel
 
 lateinit var modelFile: ByteBuffer
 lateinit var associatedAxisLabels: List<String>

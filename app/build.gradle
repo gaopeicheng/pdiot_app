@@ -68,6 +68,10 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.0.0-nightly'
     implementation 'org.tensorflow:tensorflow-lite-task-text:0.0.0-nightly'
 
-
+    // Tensorflow lite dependencies
+    implementation 'org.tensorflow:tensorflow-lite:+'
+//    implementation 'org.tensorflow:tensorflow-lite:2.8.0'
+//    implementation 'org.tensorflow:tensorflow-lite-gpu:2.8.0'
+//    implementation 'org.tensorflow:tensorflow-lite-support:2.8.0'
 
 }
