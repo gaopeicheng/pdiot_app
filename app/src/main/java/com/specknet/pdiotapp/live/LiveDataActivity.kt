@@ -136,6 +136,33 @@ class LiveDataActivity : AppCompatActivity() {
         doubleArrayOf(-0.287109,-1.46051,-0.020325,6.203125,29.921875,-15.8125),
         doubleArrayOf(-0.136719,-0.990295,-0.211243,7.484375,34.171875,-12.234375))
 
+//    val labelsMap = mapOf<Int,String>(12 to "Climbing stairs",
+//        13 to "Descending stairs",
+//        31 to "Desk work",
+//        7 to "Lying down left",
+//        2 to "Lying down on back",
+//        8 to "Lying down on stomach",
+//        6 to "Lying down right",
+//        11 to "Running",
+//        5 to "Sitting bent backward",
+//        4 to "Sitting bent forward",
+//        0 to "Sitting",
+//        100 to "Standing",
+//        1 to "Walking at normal speed")
+
+    val labelsMap = mapOf<Int,String>(0 to "Climbing stairs",   // need to match the network output
+        1 to "Descending stairs",
+        2 to "Desk work",
+        3 to "Lying down left",
+        4 to "Lying down on back",
+        5 to "Lying down on stomach",
+        6 to "Lying down right",
+        7 to "Running",
+        8 to "Sitting bent backward",
+        9 to "Sitting bent forward",
+        10 to "Sitting",
+        11 to "Standing",
+        12 to "Walking at normal speed")
 
     private val nnApiDelegate by lazy  {
         NnApiDelegate()
@@ -527,6 +554,10 @@ class LiveDataActivity : AppCompatActivity() {
             s = s+ output[0][i] +" "
         }
         Log.v("predict and the output changed", "prediction " + s)
+        val maxIdx = output[0].indices.maxBy { output[0][it] } ?: -1
+        Log.v("max", "max idx " + maxIdx)
+        val l = labelsMap.get(maxIdx)
+        Log.v("label", "label " + l)
 
         RecordingButton.setOnClickListener {
 
