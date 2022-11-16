@@ -254,7 +254,7 @@ class LiveDataActivity : AppCompatActivity() {
          //           val predictionWithConfidence = getPrediction(data) //come from the model
 
 //                    val predictionWithConfidence = getPrediction()
-                    predictedrespeckActivity = "Sitting/Standing"
+//                    predictedrespeckActivity = "Sitting/Standing"
 //                    predictionrespeckConfidence = (30..40).shuffled().last().toString()
 
                     if (mIsRespeckRecording) {
@@ -273,6 +273,27 @@ class LiveDataActivity : AppCompatActivity() {
                             count()
                         }
 //                        respeckOutputData.append(output)
+
+
+                        if(mIsThingyRecording==false&&mIsRespeckRecording==false){
+                            // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
+                            val RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
+                            RESbyteBuffer.order(ByteOrder.nativeOrder())
+                            for (i in 0 until 50) {
+                                for (j in test[i].indices) {
+                                    RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
+                                }
+                            }
+                            val RESoutput = Array(1){FloatArray(13){0f}}
+                            REStflite.run(RESbyteBuffer,RESoutput)
+
+                            val RESstring = printOutput(RESoutput)
+
+                            predictedrespeckActivity = RESstring
+
+                            Log.i("RES",RESstring)
+                        }
+
                     }
 
                     runOnUiThread {    //real-time data show on the ui
@@ -341,6 +362,24 @@ class LiveDataActivity : AppCompatActivity() {
                         }
 
                         thingyOutputData.append(output)
+
+                        if(mIsThingyRecording==false&&mIsRespeckRecording==false){
+                            val THIbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
+                            THIbyteBuffer.order(ByteOrder.nativeOrder())
+                            for (i in 0 until 50) {
+                                for (j in test[i].indices) {
+                                    THIbyteBuffer.putFloat(thingy_data[i][j].toFloat())
+                                }
+                            }
+                            val THIoutput = Array(1){FloatArray(13){0f}}
+                            THItflite.run(THIbyteBuffer,THIoutput)
+
+                            val THIstring = printOutput(THIoutput)
+
+                            Log.i("THI",THIstring)
+
+
+                        }
                     }
 
                     runOnUiThread {
@@ -581,37 +620,6 @@ class LiveDataActivity : AppCompatActivity() {
 //            disableView(sensorTypeSpinner)
 
             startRecording()
-            if(mIsThingyRecording==false&&mIsRespeckRecording==false){
-                // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
-                val RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
-                byteBuffer.order(ByteOrder.nativeOrder())
-                for (i in 0 until 50) {
-                    for (j in test[i].indices) {
-                        RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
-                    }
-                }
-                val RESoutput = Array(1){FloatArray(13){0f}}
-                REStflite.run(RESbyteBuffer,RESoutput)
-
-                val RESstring = printOutput(RESoutput)
-
-                val THIbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
-                byteBuffer.order(ByteOrder.nativeOrder())
-                for (i in 0 until 50) {
-                    for (j in test[i].indices) {
-                        THIbyteBuffer.putFloat(thingy_data[i][j].toFloat())
-                    }
-                }
-                val THIoutput = Array(1){FloatArray(13){0f}}
-                THItflite.run(THIbyteBuffer,THIoutput)
-
-                val THIstring = printOutput(THIoutput)
-
-                Log.i("RES",RESstring)
-                Log.i("THI",THIstring)
-
-
-            }
         }
 
     }
