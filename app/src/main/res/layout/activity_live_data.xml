@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/title_live_respeck"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/respeck_graphs"
+        app:layout_constraintBottom_toTopOf="@id/title_live_thingy"
         android:gravity="center">
 
         <LinearLayout
@@ -115,7 +115,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+<!--    <LinearLayout
         android:id="@+id/respeck_graphs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
 
 
 
-    </LinearLayout>
+    </LinearLayout> -->
 
     <TextView
         android:id="@+id/title_live_thingy"
@@ -140,7 +140,7 @@
         android:text="Thingy Live Data"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/respeck_graphs"
+        app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
         app:layout_constraintBottom_toTopOf="@id/thingy_graphs"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal" />

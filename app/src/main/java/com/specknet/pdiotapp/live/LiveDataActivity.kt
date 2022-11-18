@@ -306,7 +306,7 @@ class LiveDataActivity : AppCompatActivity() {
                     }
 
                     time += 1
-                    updateGraph("respeck", x, y, z)
+//                    updateGraph("respeck", x, y, z)
 
                     respeckOn = true    //the respeck bluetooth is on
 
@@ -406,51 +406,51 @@ class LiveDataActivity : AppCompatActivity() {
 
 
     fun setupCharts() {
-        respeckChart = findViewById(R.id.respeck_chart)
+//        respeckChart = findViewById(R.id.respeck_chart)
         thingyChart = findViewById(R.id.thingy_chart)
 
         // Respeck
 
-        time = 0f
-        val entries_res_accel_x = ArrayList<Entry>()
-        val entries_res_accel_y = ArrayList<Entry>()
-        val entries_res_accel_z = ArrayList<Entry>()
-
-        dataSet_res_accel_x = LineDataSet(entries_res_accel_x, "Accel X")
-        dataSet_res_accel_y = LineDataSet(entries_res_accel_y, "Accel Y")
-        dataSet_res_accel_z = LineDataSet(entries_res_accel_z, "Accel Z")
-
-        dataSet_res_accel_x.setDrawCircles(false)
-        dataSet_res_accel_y.setDrawCircles(false)
-        dataSet_res_accel_z.setDrawCircles(false)
-
-        dataSet_res_accel_x.setColor(
-            ContextCompat.getColor(
-                this,
-                R.color.red
-            )
-        )
-        dataSet_res_accel_y.setColor(
-            ContextCompat.getColor(
-                this,
-                R.color.green
-            )
-        )
-        dataSet_res_accel_z.setColor(
-            ContextCompat.getColor(
-                this,
-                R.color.blue
-            )
-        )
-
-        val dataSetsRes = ArrayList<ILineDataSet>()
-        dataSetsRes.add(dataSet_res_accel_x)
-        dataSetsRes.add(dataSet_res_accel_y)
-        dataSetsRes.add(dataSet_res_accel_z)
-
-        allRespeckData = LineData(dataSetsRes)
-        respeckChart.data = allRespeckData
-        respeckChart.invalidate()
+//        time = 0f
+//        val entries_res_accel_x = ArrayList<Entry>()
+//        val entries_res_accel_y = ArrayList<Entry>()
+//        val entries_res_accel_z = ArrayList<Entry>()
+//
+//        dataSet_res_accel_x = LineDataSet(entries_res_accel_x, "Accel X")
+//        dataSet_res_accel_y = LineDataSet(entries_res_accel_y, "Accel Y")
+//        dataSet_res_accel_z = LineDataSet(entries_res_accel_z, "Accel Z")
+//
+//        dataSet_res_accel_x.setDrawCircles(false)
+//        dataSet_res_accel_y.setDrawCircles(false)
+//        dataSet_res_accel_z.setDrawCircles(false)
+//
+//        dataSet_res_accel_x.setColor(
+//            ContextCompat.getColor(
+//                this,
+//                R.color.red
+//            )
+//        )
+//        dataSet_res_accel_y.setColor(
+//            ContextCompat.getColor(
+//                this,
+//                R.color.green
+//            )
+//        )
+//        dataSet_res_accel_z.setColor(
+//            ContextCompat.getColor(
+//                this,
+//                R.color.blue
+//            )
+//        )
+//
+//        val dataSetsRes = ArrayList<ILineDataSet>()
+//        dataSetsRes.add(dataSet_res_accel_x)
+//        dataSetsRes.add(dataSet_res_accel_y)
+//        dataSetsRes.add(dataSet_res_accel_z)
+//
+//        allRespeckData = LineData(dataSetsRes)
+//        respeckChart.data = allRespeckData
+//        respeckChart.invalidate()
 
         // Thingy
 
