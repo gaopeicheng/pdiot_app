@@ -80,7 +80,9 @@ class LiveDataActivity : AppCompatActivity() {
     var counttime = 0   //accumulate 50 data
     var respeck_data = Array(50){FloatArray(6)}  //respeck array to store 50*6 data
     var thingy_data = Array(50){FloatArray(9)}   //thingy array to store 50*9 data
-
+    var averageIndex = Array(1){FloatArray(13){0f}}
+    var averageConfidence = Array(1){FloatArray(13){0f}}
+    var round = 0
 
     val filterTestRespeck = IntentFilter(Constants.ACTION_RESPECK_LIVE_BROADCAST)
     val filterTestThingy = IntentFilter(Constants.ACTION_THINGY_BROADCAST)
@@ -297,8 +299,22 @@ class LiveDataActivity : AppCompatActivity() {
                         var maxIdx = getMaxIdx(RESoutput)
                         var label = labelsMap.getValue(maxIdx)
 
-                        predictedrespeckActivity = label
-                        predictionrespeckConfidence = RESoutput[0][maxIdx].toString()
+                        //predictedrespeckActivity = label
+                        //predictionrespeckConfidence = RESoutput[0][maxIdx].toString()
+
+                        averageIndex[0][maxIdx] = averageIndex[0][maxIdx] + 1
+                        averageConfidence[0][maxIdx] = averageConfidence[0][maxIdx] + RESoutput[0][maxIdx]
+                        round++
+                        if (round == 10) {
+                            round = 0
+                            var maxAverageIdx = getMaxIdx(averageIndex)
+                            predictedrespeckActivity = labelsMap.getValue(maxAverageIdx)
+                            var average_label_count = averageIndex[0][maxAverageIdx]
+                            var average_confidence = averageConfidence[0][maxAverageIdx] / average_label_count
+                            predictionrespeckConfidence = average_confidence.toString()
+                            averageIndex = Array(1){FloatArray(13){0f}}
+                            averageConfidence = Array(1){FloatArray(13){0f}}
+                        }
 
                         Log.i("RES",label)
                     }
