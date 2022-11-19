@@ -264,7 +264,6 @@ class LiveDataActivity : AppCompatActivity() {
 //                    val predictionWithConfidence = getPrediction()
 //                    predictedrespeckActivity = "Sitting/Standing"
 //                    predictionrespeckConfidence = (30..40).shuffled().last().toString()
-                    var enough_data = false
                     if (true) {
                         val output = liveData.phoneTimestamp.toString() + "," +
                                 liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
