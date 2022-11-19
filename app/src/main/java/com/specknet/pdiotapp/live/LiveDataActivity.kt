@@ -136,33 +136,19 @@ class LiveDataActivity : AppCompatActivity() {
         doubleArrayOf(-0.287109,-1.46051,-0.020325,6.203125,29.921875,-15.8125),
         doubleArrayOf(-0.136719,-0.990295,-0.211243,7.484375,34.171875,-12.234375))
 
-//    val labelsMap = mapOf<Int,String>(12 to "Climbing stairs",
-//        13 to "Descending stairs",
-//        31 to "Desk work",
-//        7 to "Lying down left",
-//        2 to "Lying down on back",
-//        8 to "Lying down on stomach",
-//        6 to "Lying down right",
-//        11 to "Running",
-//        5 to "Sitting bent backward",
-//        4 to "Sitting bent forward",
-//        0 to "Sitting",
-//        100 to "Standing",
-//        1 to "Walking at normal speed")
-
-    val labelsMap = mapOf<Int,String>(0 to "Climbing stairs",   // need to match the network output
-        1 to "Descending stairs",
-        2 to "Desk work",
-        3 to "Lying down left",
-        4 to "Lying down on back",
-        5 to "Lying down on stomach",
-        6 to "Lying down right",
-        7 to "Running",
-        8 to "Sitting bent backward",
-        9 to "Sitting bent forward",
-        10 to "Sitting",
-        11 to "Standing",
-        12 to "Walking at normal speed")
+    val labelsMap = mapOf<Int,String>(0 to "0 Sitting",   // need to match the network output
+        1 to "1 Walking at normal speed",
+        2 to "2 Lying down on back",
+        3 to "4 Sitting bent forward",
+        4 to "5 Sitting bent backward",
+        5 to "6 Lying down right",
+        6 to "7 Lying down left",
+        7 to "8 Lying down on stomach",
+        8 to "11 Running",
+        9 to "12 Climbing stairs",
+        10 to "13 Descending stairs",
+        11 to "31 Desk work",
+        12 to "100 Standing")
 
     private val nnApiDelegate by lazy  {
         NnApiDelegate()
@@ -204,15 +190,37 @@ class LiveDataActivity : AppCompatActivity() {
         var thingy_mag = findViewById<TextView>(R.id.thingy_mag_data)
         thingyOutputData = StringBuilder()
 
-
         var Respeckprediction = findViewById<TextView>(R.id.prediction)
         var Respeckconfidence = findViewById<TextView>(R.id.confidence)
+
 
         setupSpinner()
 
         setupButton()
 
         setupCharts()
+
+        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
+        byteBuffer.order(ByteOrder.nativeOrder())
+        for (i in 0 until 50) {
+            for (j in test[i].indices) {
+                byteBuffer.putFloat(test[i][j].toFloat())
+            }
+        }
+        val output = Array(1){FloatArray(13){0f}}
+        Log.v("Init output and print", "init" + output[0][0])
+//        val outputbuffer = ByteBuffer.allocateDirect(14*4)
+        REStflite.run(byteBuffer,output)
+        var s: String = printOutput(output)
+        Log.v("predict and the output changed", "prediction " + s)
+        var maxIdx: Int = getMaxIdx(output)
+        var label: String = labelsMap.getValue(maxIdx)
+        Log.v("label", "label " + label)
+        Log.v("Confidence", "confi " + output[0][maxIdx])
+
+
+        Respeckprediction.text  =  "Activity: " + label
+        Respeckconfidence.text = output[0][maxIdx].toString()
 
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
@@ -278,21 +286,23 @@ class LiveDataActivity : AppCompatActivity() {
 
                     if(mIsThingyRecording==false&&mIsRespeckRecording==false){
                         // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
-                        val RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
+                        var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
                         RESbyteBuffer.order(ByteOrder.nativeOrder())
                         for (i in 0 until 50) {
                             for (j in test[i].indices) {
                                 RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
                             }
                         }
-                        val RESoutput = Array(1){FloatArray(13){0f}}
+                        var RESoutput = Array(1){FloatArray(13){0f}}
                         REStflite.run(RESbyteBuffer,RESoutput)
 
-                        val RESstring = printOutput(RESoutput)
+                        var maxIdx = getMaxIdx(RESoutput)
+                        var label = labelsMap.getValue(maxIdx)
 
-                        predictedrespeckActivity = RESstring
+                        predictedrespeckActivity = label
+                        predictionrespeckConfidence = output[0][maxIdx].toString()
 
-                        Log.i("RES",RESstring)
+                        Log.i("RES",label)
                     }
 
                     runOnUiThread {    //real-time data show on the ui
@@ -364,21 +374,21 @@ class LiveDataActivity : AppCompatActivity() {
 
                     }
 
-                    if(mIsThingyRecording==false&&mIsRespeckRecording==false){
-                        val THIbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
-                        THIbyteBuffer.order(ByteOrder.nativeOrder())
-                        for (i in 0 until 50) {
-                            for (j in test[i].indices) {
-                                THIbyteBuffer.putFloat(thingy_data[i][j].toFloat())
-                            }
-                        }
-                        val THIoutput = Array(1){FloatArray(13){0f}}
-                        THItflite.run(THIbyteBuffer,THIoutput)
-
-                        val THIstring = printOutput(THIoutput)
-
-                        Log.i("THI",THIstring)
-                    }
+//                    if(mIsThingyRecording==false&&mIsRespeckRecording==false){
+//                        val THIbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
+//                        THIbyteBuffer.order(ByteOrder.nativeOrder())
+//                        for (i in 0 until 50) {
+//                            for (j in test[i].indices) {
+//                                THIbyteBuffer.putFloat(thingy_data[i][j].toFloat())
+//                            }
+//                        }
+//                        val THIoutput = Array(1){FloatArray(13){0f}}
+//                        THItflite.run(THIbyteBuffer,THIoutput)
+//
+//                        val THIstring = printOutput(THIoutput)
+//
+//                        Log.i("THI",THIstring)
+//                    }
 
                     runOnUiThread {
                         thingy_accel.text = "accel =("+ liveData.accelX+ liveData.accelY+ liveData.accelZ+")"
@@ -562,11 +572,25 @@ class LiveDataActivity : AppCompatActivity() {
 
     }
 
+    private fun getMaxIdx(temp:Array<FloatArray> ): Int {
+
+        var max: Float = 0f
+        var maxIdx: Int = 0
+        for(i in 0 until 13){
+            if (max<temp[0][i]) {
+                max = temp[0][i]
+                maxIdx = i
+            }
+        }
+//        var label: String = labelsMap.getValue(maxIdx)
+        return maxIdx
+    }
+
     private fun printOutput(temp:Array<FloatArray> ): String {
+
         var s: String = ""
         for(i in 0 until 13){
-            s = s+ temp[0][i] +" "
-
+            s = s+temp[0][i]
         }
         return s
     }
@@ -574,27 +598,7 @@ class LiveDataActivity : AppCompatActivity() {
     private fun setupButton(){
         RecordingButton = findViewById(R.id.start_button)
 
-        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
-        byteBuffer.order(ByteOrder.nativeOrder())
-        for (i in 0 until 50) {
-            for (j in test[i].indices) {
-                byteBuffer.putFloat(test[i][j].toFloat())
-            }
-        }
 
-        val output = Array(1){FloatArray(13){0f}}
-        Log.v("Init output and print", "init" + output[0][0])
-//        val outputbuffer = ByteBuffer.allocateDirect(14*4)
-        REStflite.run(byteBuffer,output)
-        var s: String = ""
-        for(i in 0 until 13){
-            s = s+ output[0][i] +" "
-        }
-        Log.v("predict and the output changed", "prediction " + s)
-        val maxIdx = output[0].indices.maxBy { output[0][it] } ?: -1
-        Log.v("max", "max idx " + maxIdx)
-        val l = labelsMap.get(maxIdx)
-        Log.v("label", "label " + l)
 
         RecordingButton.setOnClickListener {
 
