@@ -58,8 +58,8 @@ class LiveDataActivity : AppCompatActivity() {
     lateinit var respeckChart: LineChart
     lateinit var thingyChart: LineChart
 
-    lateinit var predictedrespeckActivity: String
-    lateinit var predictionrespeckConfidence: String
+    var predictedrespeckActivity: String =""
+    var predictionrespeckConfidence: String =""
 
     // global broadcast receiver so we can unregister it
     lateinit var respeckLiveUpdateReceiver: BroadcastReceiver
@@ -200,27 +200,27 @@ class LiveDataActivity : AppCompatActivity() {
 
         setupCharts()
 
-        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
-        byteBuffer.order(ByteOrder.nativeOrder())
-        for (i in 0 until 50) {
-            for (j in test[i].indices) {
-                byteBuffer.putFloat(test[i][j].toFloat())
-            }
-        }
-        val output = Array(1){FloatArray(13){0f}}
-        Log.v("Init output and print", "init" + output[0][0])
+//        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
+//        byteBuffer.order(ByteOrder.nativeOrder())
+//        for (i in 0 until 50) {
+//            for (j in test[i].indices) {
+//                byteBuffer.putFloat(test[i][j].toFloat())
+//            }
+//        }
+//        val output = Array(1){FloatArray(13){0f}}
+//        Log.v("Init output and print", "init" + output[0][0])
 //        val outputbuffer = ByteBuffer.allocateDirect(14*4)
-        REStflite.run(byteBuffer,output)
-        var s: String = printOutput(output)
-        Log.v("predict and the output changed", "prediction " + s)
-        var maxIdx: Int = getMaxIdx(output)
-        var label: String = labelsMap.getValue(maxIdx)
-        Log.v("label", "label " + label)
-        Log.v("Confidence", "confi " + output[0][maxIdx])
-
-
-        Respeckprediction.text  =  "Activity: " + label
-        Respeckconfidence.text = output[0][maxIdx].toString()
+//        REStflite.run(byteBuffer,output)
+//        var s: String = printOutput(output)
+//        Log.v("predict and the output changed", "prediction " + s)
+//        var maxIdx: Int = getMaxIdx(output)
+//        var label: String = labelsMap.getValue(maxIdx)
+//        Log.v("label", "label " + label)
+//        Log.v("Confidence", "confi " + output[0][maxIdx])
+//
+//
+//        Respeckprediction.text  =  "Activity: " + label
+//        Respeckconfidence.text = output[0][maxIdx].toString()
 
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
@@ -264,8 +264,8 @@ class LiveDataActivity : AppCompatActivity() {
 //                    val predictionWithConfidence = getPrediction()
 //                    predictedrespeckActivity = "Sitting/Standing"
 //                    predictionrespeckConfidence = (30..40).shuffled().last().toString()
-
-                    if (mIsRespeckRecording) {
+                    var enough_data = false
+                    if (true) {
                         val output = liveData.phoneTimestamp.toString() + "," +
                                 liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
                                 liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "\n"
@@ -278,29 +278,32 @@ class LiveDataActivity : AppCompatActivity() {
                             respeck_data[counttime][4] = liveData.gyro.y
                             respeck_data[counttime][5] = liveData.gyro.z
                             counttime++
-                            count()
+                            if (counttime == 50) {
+                                counttime = 0
+                            }
+//                            count()
                         }
+                        enough_data = true
 //                        respeckOutputData.append(output)
 
                     }
 
-                    if(mIsThingyRecording==false&&mIsRespeckRecording==false){
+                    if(enough_data){
                         // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
                         var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
                         RESbyteBuffer.order(ByteOrder.nativeOrder())
                         for (i in 0 until 50) {
-                            for (j in test[i].indices) {
+                            for (j in respeck_data[i].indices) {
                                 RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
                             }
                         }
                         var RESoutput = Array(1){FloatArray(13){0f}}
                         REStflite.run(RESbyteBuffer,RESoutput)
-
                         var maxIdx = getMaxIdx(RESoutput)
                         var label = labelsMap.getValue(maxIdx)
 
                         predictedrespeckActivity = label
-                        predictionrespeckConfidence = output[0][maxIdx].toString()
+                        predictionrespeckConfidence = RESoutput[0][maxIdx].toString()
 
                         Log.i("RES",label)
                     }
@@ -313,6 +316,7 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_gyro_y.text = "gyro_y = " + groy_y.toString()
                         respeck_gyro_z.text = "gyro_z = " + groy_z.toString()
                         Respeckprediction.text = "Activity: " + predictedrespeckActivity
+                        Respeckconfidence.text =  predictionrespeckConfidence
                     }
 
                     time += 1
@@ -350,7 +354,7 @@ class LiveDataActivity : AppCompatActivity() {
                     val y = liveData.accelY
                     val z = liveData.accelZ
 
-                    if (mIsThingyRecording) {
+                    if (true) {
                         val output = liveData.phoneTimestamp.toString() + "," +
                                 liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
                                 liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "," +
@@ -367,7 +371,7 @@ class LiveDataActivity : AppCompatActivity() {
                             thingy_data[counttime][7] = liveData.mag.y
                             thingy_data[counttime][8] = liveData.mag.z
                             counttime++
-                            count()
+                            //count()
                         }
 
                         thingyOutputData.append(output)
