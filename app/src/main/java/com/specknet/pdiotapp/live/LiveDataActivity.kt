@@ -283,12 +283,8 @@ class LiveDataActivity : AppCompatActivity() {
                             }
 //                            count()
                         }
-                        enough_data = true
 //                        respeckOutputData.append(output)
 
-                    }
-
-                    if(enough_data){
                         // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
                         var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
                         RESbyteBuffer.order(ByteOrder.nativeOrder())
