@@ -346,5 +346,16 @@
 
         </LinearLayout>
 
+
+        <Button
+            android:id="@+id/startstopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Stat_pred_layout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
