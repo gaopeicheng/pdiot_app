@@ -12,14 +12,92 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/main_head"
+            android:background="@drawable/button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textView2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/main_head_left"
+                android:layout_weight="1"
+                android:gravity="center">
+
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:paddingTop="30dp"
+                    android:paddingBottom="20dp"
+                    android:src="@drawable/respeck_image"/>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:id="@+id/main_head_right"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/PDIOTAPP_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:textColor="@color/white_70"
+                    android:text="PDIOT APP"
+                    android:paddingTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/description_app" />
+
+                <TextView
+                    android:id="@+id/description_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="@color/white_70"
+                    android:text="This is a human activity recognition app by"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_y" />
+
+
+                <TextView
+                    android:id="@+id/group_w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/white_70"
+                    android:text="Group W"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_y" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/textView2"
             android:textSize="100px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100px"
+            android:layout_marginTop="150px"
             android:text="I want to"
-
             android:textColor="#14171A"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +110,7 @@
             android:id="@+id/record_button"
             android:layout_width="550px"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100px"
+            android:layout_marginTop="80px"
             android:text="Record data"
 
             android:textColor="#FFFFFF"
