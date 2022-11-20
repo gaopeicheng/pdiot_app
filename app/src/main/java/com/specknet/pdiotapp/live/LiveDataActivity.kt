@@ -88,8 +88,8 @@ class LiveDataActivity : AppCompatActivity() {
 
     var countTimeAllThingy = 0
     var countTimeAllRespeck = 0
-    var lockThingy = false
-    var lockRespeck = false
+    var lockThingy = 0
+    var lockRespeck = 1
 
     var respeck_data = Array(50){FloatArray(6)}  //respeck array to store 50*6 data
     var thingy_data = Array(50){FloatArray(9)}   //thingy array to store 50*9 data
@@ -285,42 +285,28 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_data[countTimeRepseck][5] = respeckLiveData.gyro.z
 
                         countTimeRepseck++
-                        if (countTimeRepseck == 50) {
-                            countTimeRepseck = 0
-                        }
                     }
 
-                    if (countTimeAllRespeck < 50 && !lockRespeck) {
-                        all_data[countTimeAllRespeck][9] = respeckLiveData.accelX
-                        all_data[countTimeAllRespeck][10] = respeckLiveData.accelY
-                        all_data[countTimeAllRespeck][11] = respeckLiveData.accelZ
-                        all_data[countTimeAllRespeck][12] = respeckLiveData.gyro.x
-                        all_data[countTimeAllRespeck][13] = respeckLiveData.gyro.y
-                        all_data[countTimeAllRespeck][14] = respeckLiveData.gyro.z
-
-                        countTimeAllRespeck++
-                        if (countTimeAllRespeck == 50) {
-                            countTimeAllRespeck = 0
-                            lockRespeck = true
-                        }
+                    if (countTimeRepseck == 50) {
+                        countTimeRepseck = 0
                     }
-
-                    // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
-                    var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
+                    var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 6 * 4)
                     RESbyteBuffer.order(ByteOrder.nativeOrder())
                     for (i in 0 until 50) {
                         for (j in respeck_data[i].indices) {
                             RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
                         }
                     }
-                    var RESoutput = Array(1){FloatArray(13){0f}}
-                    REStflite.run(RESbyteBuffer,RESoutput)
+                    var RESoutput = Array(1) { FloatArray(13) { 0f } }
+                    REStflite.run(RESbyteBuffer, RESoutput)
                     var maxIdxRespeck = getMaxIdx(RESoutput)
 
-                    averageRespeckIndex[0][maxIdxRespeck] = averageRespeckIndex[0][maxIdxRespeck] + 1
-                    averageRespeckConfidence[0][maxIdxRespeck] = averageRespeckConfidence[0][maxIdxRespeck] + RESoutput[0][maxIdxRespeck]
-
+                    averageRespeckIndex[0][maxIdxRespeck] =
+                        averageRespeckIndex[0][maxIdxRespeck] + 1
+                    averageRespeckConfidence[0][maxIdxRespeck] =
+                        averageRespeckConfidence[0][maxIdxRespeck] + RESoutput[0][maxIdxRespeck]
                     roundRespeck++
+
                     if (roundRespeck == 10) {
                         roundRespeck = 0
 
@@ -357,7 +343,26 @@ class LiveDataActivity : AppCompatActivity() {
 //                    time += 1
 //                    updateGraph("thingy", x, y, z)
 
+                    while (lockRespeck <= 0) {
+                        if (lockRespeck > 0) break
+                    }
+                    lockRespeck--
 
+                    if (countTimeAllRespeck < 50) {
+                        all_data[countTimeAllRespeck][9] = respeckLiveData.accelX
+                        all_data[countTimeAllRespeck][10] = respeckLiveData.accelY
+                        all_data[countTimeAllRespeck][11] = respeckLiveData.accelZ
+                        all_data[countTimeAllRespeck][12] = respeckLiveData.gyro.x
+                        all_data[countTimeAllRespeck][13] = respeckLiveData.gyro.y
+                        all_data[countTimeAllRespeck][14] = respeckLiveData.gyro.z
+
+                        countTimeAllRespeck++
+                        if (countTimeAllRespeck == 50) {
+                            countTimeAllRespeck = 0
+                        }
+                    }
+
+                    lockThingy++
 
                 }
             }
@@ -389,7 +394,7 @@ class LiveDataActivity : AppCompatActivity() {
                     val yThingy = thingyLiveData.accelY
                     val zThingy = thingyLiveData.accelZ
 
-                    if(countTimeThingy<50){   //store 50*6 data into the respeck array
+                    if(countTimeThingy<50){   //store 50*9 data into the thingy array
 
                         thingy_data[countTimeThingy][0] = thingyLiveData.accelX
                         thingy_data[countTimeThingy][1] = thingyLiveData.accelY
@@ -402,44 +407,28 @@ class LiveDataActivity : AppCompatActivity() {
                         thingy_data[countTimeThingy][8] = thingyLiveData.mag.z
 
                         countTimeThingy++
-                        if (countTimeThingy == 50) {
-                            countTimeThingy = 0
-                        }
                     }
 
-                    if (countTimeAllThingy < 50 && !lockThingy) {
-                        all_data[countTimeAllThingy][0] = thingyLiveData.accelX
-                        all_data[countTimeAllThingy][1] = thingyLiveData.accelY
-                        all_data[countTimeAllThingy][2] = thingyLiveData.accelZ
-                        all_data[countTimeAllThingy][3] = thingyLiveData.gyro.x
-                        all_data[countTimeAllThingy][4] = thingyLiveData.gyro.y
-                        all_data[countTimeAllThingy][5] = thingyLiveData.gyro.z
-                        all_data[countTimeAllThingy][6] = thingyLiveData.mag.x
-                        all_data[countTimeAllThingy][7] = thingyLiveData.mag.y
-                        all_data[countTimeAllThingy][8] = thingyLiveData.mag.z
-
-                        countTimeAllThingy++
-                        if (countTimeAllThingy == 50) {
-                            countTimeAllThingy = 0
-                            lockThingy = true
-                        }
+                    if (countTimeThingy == 50) {
+                        countTimeThingy = 0
                     }
-
-                    var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
+                    var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 9 * 4)
                     thingyByteBuffer.order(ByteOrder.nativeOrder())
                     for (i in 0 until 50) {
                         for (j in thingy_data[i].indices) {
                             thingyByteBuffer.putFloat(thingy_data[i][j].toFloat())
                         }
                     }
-                    var thingyOutput = Array(1){FloatArray(13){0f}}
-                    THItflite.run(thingyByteBuffer,thingyOutput)
+                    var thingyOutput = Array(1) { FloatArray(13) { 0f } }
+                    THItflite.run(thingyByteBuffer, thingyOutput)
                     var maxIdxThingy = getMaxIdx(thingyOutput)
 
-                    averageThingyIndex[0][maxIdxThingy] = averageThingyIndex[0][maxIdxThingy] + 1
-                    averageThingyConfidence[0][maxIdxThingy] = averageThingyConfidence[0][maxIdxThingy] + thingyOutput[0][maxIdxThingy]
-
+                    averageThingyIndex[0][maxIdxThingy] =
+                        averageThingyIndex[0][maxIdxThingy] + 1
+                    averageThingyConfidence[0][maxIdxThingy] =
+                        averageThingyConfidence[0][maxIdxThingy] + thingyOutput[0][maxIdxThingy]
                     roundThingy++
+
                     if (roundThingy == 10) {
                         roundThingy = 0
 
@@ -455,56 +444,80 @@ class LiveDataActivity : AppCompatActivity() {
 
                     }
 
-                    if (lockThingy && lockRespeck) {
-                        var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*15*4)
-                        allByteBuffer.order(ByteOrder.nativeOrder())
-                        for (i in 0 until 50) {
-                            for (j in all_data[i].indices) {
-                                allByteBuffer.putFloat(all_data[i][j].toFloat())
-                            }
-                        }
-                        var allOutput = Array(1){FloatArray(13){0f}}
-                        ALLtflite.run(allByteBuffer,allOutput)
-                        var maxIdxAll = getMaxIdx(allOutput)
-
-                        averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
-                        averageAllConfidence[0][maxIdxAll] = averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
-
-                        roundAll++
-                        if (roundAll == 10) {
-                            roundAll = 0
-
-                            var maxAverageIdxAll = getMaxIdx(averageAllIndex)
-                            ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
-
-                            var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
-                            var allConfidence = averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
-                            ALL_pred_con = allConfidence.toString()
-
-                            averageAllIndex = Array(1){FloatArray(13){0f}}
-                            averageAllConfidence = Array(1){FloatArray(13){0f}}
-
-                        }
-                        lockRespeck = false
-                        lockThingy = false
-                    }
-
                     runOnUiThread {
-                        thingy_accel.text = "accel =("+ xThingy.toString()+ yThingy.toString()+ zThingy.toString()+")"
-                        thingy_gyro.text = "gyro =("+ thingyLiveData.gyro.x+ thingyLiveData.gyro.y+ thingyLiveData.gyro.z+")"
-                        thingy_mag.text = "mag =("+ thingyLiveData.mag.x+ thingyLiveData.mag.y+ thingyLiveData.mag.z+")"
+                        thingy_accel.text =
+                            "accel =(" + xThingy.toString() + yThingy.toString() + zThingy.toString() + ")"
+                        thingy_gyro.text =
+                            "gyro =(" + thingyLiveData.gyro.x + thingyLiveData.gyro.y + thingyLiveData.gyro.z + ")"
+                        thingy_mag.text =
+                            "mag =(" + thingyLiveData.mag.x + thingyLiveData.mag.y + thingyLiveData.mag.z + ")"
 
                         THI_Act.text = "Activity: " + THI_pred_act
-                        THI_Con.text =  THI_pred_con
+                        THI_Con.text = THI_pred_con
+                    }
+                    thingyOn = true
 
+                    while (lockThingy <= 0) {
+                        if (lockThingy > 0) break
+                    }
+                    lockThingy--
+
+                    if (countTimeAllThingy < 50) {
+                        all_data[countTimeAllThingy][0] = thingyLiveData.accelX
+                        all_data[countTimeAllThingy][1] = thingyLiveData.accelY
+                        all_data[countTimeAllThingy][2] = thingyLiveData.accelZ
+                        all_data[countTimeAllThingy][3] = thingyLiveData.gyro.x
+                        all_data[countTimeAllThingy][4] = thingyLiveData.gyro.y
+                        all_data[countTimeAllThingy][5] = thingyLiveData.gyro.z
+                        all_data[countTimeAllThingy][6] = thingyLiveData.mag.x
+                        all_data[countTimeAllThingy][7] = thingyLiveData.mag.y
+                        all_data[countTimeAllThingy][8] = thingyLiveData.mag.z
+
+                        countTimeAllThingy++
+                    }
+
+                    if (countTimeAllThingy == 50) {
+                        countTimeAllThingy = 0
+                    }
+                    var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
+                    allByteBuffer.order(ByteOrder.nativeOrder())
+                    for (i in 0 until 50) {
+                        for (j in all_data[i].indices) {
+                            allByteBuffer.putFloat(all_data[i][j].toFloat())
+                        }
+                    }
+                    var allOutput = Array(1) { FloatArray(13) { 0f } }
+                    ALLtflite.run(allByteBuffer, allOutput)
+                    var maxIdxAll = getMaxIdx(allOutput)
+
+                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
+                    averageAllConfidence[0][maxIdxAll] =
+                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
+                    roundAll++
+
+                    if (roundAll == 10) {
+                        roundAll = 0
+
+                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
+                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
+
+                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
+                        var allConfidence = averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
+                        ALL_pred_con = allConfidence.toString()
+
+                        averageAllIndex = Array(1){FloatArray(13){0f}}
+                        averageAllConfidence = Array(1){FloatArray(13){0f}}
+
+                    }
+                    lockRespeck++
+
+                    runOnUiThread {
                         ALL_Act.text = "Activity: " + ALL_pred_act
                         ALL_Con.text =  ALL_pred_con
 
                         // Statistc? maybe
 
                     }
-
-                    thingyOn = true
 
                 }
             }
@@ -518,7 +531,6 @@ class LiveDataActivity : AppCompatActivity() {
         this.registerReceiver(thingyLiveUpdateReceiver, filterTestThingy, null, handlerThingy)
 
     }
-
 
     fun setupCharts() {
 //        respeckChart = findViewById(R.id.respeck_chart)
