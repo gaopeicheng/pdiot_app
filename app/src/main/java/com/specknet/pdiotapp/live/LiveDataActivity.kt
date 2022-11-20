@@ -58,8 +58,14 @@ class LiveDataActivity : AppCompatActivity() {
     lateinit var respeckChart: LineChart
     lateinit var thingyChart: LineChart
 
-    var predictedrespeckActivity: String =""
-    var predictionrespeckConfidence: String =""
+    var RES_pred_act: String =""
+    var RES_pred_con: String =""
+
+    var THI_pred_act: String =""
+    var THI_pred_con: String =""
+
+    var ALL_pred_act: String =""
+    var ALL_pred_con: String =""
 
     // global broadcast receiver so we can unregister it
     lateinit var respeckLiveUpdateReceiver: BroadcastReceiver
@@ -192,15 +198,23 @@ class LiveDataActivity : AppCompatActivity() {
         var thingy_mag = findViewById<TextView>(R.id.thingy_mag_data)
         thingyOutputData = StringBuilder()
 
-        var Respeckprediction = findViewById<TextView>(R.id.prediction)
-        var Respeckconfidence = findViewById<TextView>(R.id.confidence)
+        var RES_Act = findViewById<TextView>(R.id.RES_activity)
+        var RES_Con = findViewById<TextView>(R.id.RES_confidence)
 
+        var THI_Act = findViewById<TextView>(R.id.THI_activity)
+        var THI_Con = findViewById<TextView>(R.id.THI_confidence)
 
-        setupSpinner()
+        var ALL_Act = findViewById<TextView>(R.id.ALL_activity)
+        var ALL_Con = findViewById<TextView>(R.id.ALL_confidence)
 
-        setupButton()
+        var STAT_Act = findViewById<TextView>(R.id.Stat_activity)
+        var STAT_Con = findViewById<TextView>(R.id.Stat_confidence)
 
-        setupCharts()
+//        setupSpinner()
+
+//        setupButton()
+//
+//        setupCharts()
 
 //        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
 //        byteBuffer.order(ByteOrder.nativeOrder())
@@ -264,8 +278,8 @@ class LiveDataActivity : AppCompatActivity() {
          //           val predictionWithConfidence = getPrediction(data) //come from the model
 
 //                    val predictionWithConfidence = getPrediction()
-//                    predictedrespeckActivity = "Sitting/Standing"
-//                    predictionrespeckConfidence = (30..40).shuffled().last().toString()
+//                    RES_pred_act = "Sitting/Standing"
+//                    RES_pred_con = (30..40).shuffled().last().toString()
                     if (true) {
                         val output = liveData.phoneTimestamp.toString() + "," +
                                 liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
@@ -299,8 +313,8 @@ class LiveDataActivity : AppCompatActivity() {
                         var maxIdx = getMaxIdx(RESoutput)
                         var label = labelsMap.getValue(maxIdx)
 
-                        //predictedrespeckActivity = label
-                        //predictionrespeckConfidence = RESoutput[0][maxIdx].toString()
+                        //RES_pred_act = label
+                        //RES_pred_con = RESoutput[0][maxIdx].toString()
 
                         averageIndex[0][maxIdx] = averageIndex[0][maxIdx] + 1
                         averageConfidence[0][maxIdx] = averageConfidence[0][maxIdx] + RESoutput[0][maxIdx]
@@ -308,10 +322,10 @@ class LiveDataActivity : AppCompatActivity() {
                         if (round == 10) {
                             round = 0
                             var maxAverageIdx = getMaxIdx(averageIndex)
-                            predictedrespeckActivity = labelsMap.getValue(maxAverageIdx)
+                            RES_pred_act = labelsMap.getValue(maxAverageIdx)
                             var average_label_count = averageIndex[0][maxAverageIdx]
                             var average_confidence = averageConfidence[0][maxAverageIdx] / average_label_count
-                            predictionrespeckConfidence = average_confidence.toString()
+                            RES_pred_con = average_confidence.toString()
                             averageIndex = Array(1){FloatArray(13){0f}}
                             averageConfidence = Array(1){FloatArray(13){0f}}
                         }
@@ -326,8 +340,10 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_gyro_x.text = "gyro_x = " + groy_x.toString()
                         respeck_gyro_y.text = "gyro_y = " + groy_y.toString()
                         respeck_gyro_z.text = "gyro_z = " + groy_z.toString()
-                        Respeckprediction.text = "Activity: " + predictedrespeckActivity
-                        Respeckconfidence.text =  predictionrespeckConfidence
+
+                        RES_Act.text = "Activity: " + RES_pred_act
+                        RES_Con.text =  RES_pred_con
+
                     }
 
                     time += 1
@@ -389,32 +405,31 @@ class LiveDataActivity : AppCompatActivity() {
 
                     }
 
-//                    if(mIsThingyRecording==false&&mIsRespeckRecording==false){
-//                        val THIbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
-//                        THIbyteBuffer.order(ByteOrder.nativeOrder())
-//                        for (i in 0 until 50) {
-//                            for (j in test[i].indices) {
-//                                THIbyteBuffer.putFloat(thingy_data[i][j].toFloat())
-//                            }
-//                        }
-//                        val THIoutput = Array(1){FloatArray(13){0f}}
-//                        THItflite.run(THIbyteBuffer,THIoutput)
-//
-//                        val THIstring = printOutput(THIoutput)
-//
-//                        Log.i("THI",THIstring)
-//                    }
+//                  Complete the logic here for the THI and all
 
                     runOnUiThread {
                         thingy_accel.text = "accel =("+ liveData.accelX+ liveData.accelY+ liveData.accelZ+")"
                         thingy_gyro.text = "gyro =("+ liveData.gyro.x+ liveData.gyro.y+ liveData.gyro.z+")"
                         thingy_mag.text = "mag =("+ liveData.mag.x+ liveData.mag.y+ liveData.mag.z+")"
+
+                        THI_Act.text = "Activity: " + THI_pred_act
+                        THI_Con.text =  THI_pred_con
+
+                        ALL_Act.text = "Activity: " + ALL_pred_act
+                        ALL_Con.text =  ALL_pred_con
+
+                        // Statistc? maybe
+
                     }
 
                     time += 1
-                    updateGraph("thingy", x, y, z)
+//                    updateGraph("thingy", x, y, z)
 
                     thingyOn = true
+
+
+
+
 
                 }
             }
@@ -432,7 +447,7 @@ class LiveDataActivity : AppCompatActivity() {
 
     fun setupCharts() {
 //        respeckChart = findViewById(R.id.respeck_chart)
-        thingyChart = findViewById(R.id.thingy_chart)
+//        thingyChart = findViewById(R.id.thingy_chart)
 
         // Respeck
 
@@ -479,46 +494,46 @@ class LiveDataActivity : AppCompatActivity() {
 
         // Thingy
 
-        time = 0f
-        val entries_thingy_accel_x = ArrayList<Entry>()
-        val entries_thingy_accel_y = ArrayList<Entry>()
-        val entries_thingy_accel_z = ArrayList<Entry>()
-
-        dataSet_thingy_accel_x = LineDataSet(entries_thingy_accel_x, "Accel X")
-        dataSet_thingy_accel_y = LineDataSet(entries_thingy_accel_y, "Accel Y")
-        dataSet_thingy_accel_z = LineDataSet(entries_thingy_accel_z, "Accel Z")
-
-        dataSet_thingy_accel_x.setDrawCircles(false)
-        dataSet_thingy_accel_y.setDrawCircles(false)
-        dataSet_thingy_accel_z.setDrawCircles(false)
-
-        dataSet_thingy_accel_x.setColor(
-            ContextCompat.getColor(
-                this,
-                R.color.red
-            )
-        )
-        dataSet_thingy_accel_y.setColor(
-            ContextCompat.getColor(
-                this,
-                R.color.green
-            )
-        )
-        dataSet_thingy_accel_z.setColor(
-            ContextCompat.getColor(
-                this,
-                R.color.blue
-            )
-        )
-
-        val dataSetsThingy = ArrayList<ILineDataSet>()
-        dataSetsThingy.add(dataSet_thingy_accel_x)
-        dataSetsThingy.add(dataSet_thingy_accel_y)
-        dataSetsThingy.add(dataSet_thingy_accel_z)
-
-        allThingyData = LineData(dataSetsThingy)
-        thingyChart.data = allThingyData
-        thingyChart.invalidate()
+//        time = 0f
+//        val entries_thingy_accel_x = ArrayList<Entry>()
+//        val entries_thingy_accel_y = ArrayList<Entry>()
+//        val entries_thingy_accel_z = ArrayList<Entry>()
+//
+//        dataSet_thingy_accel_x = LineDataSet(entries_thingy_accel_x, "Accel X")
+//        dataSet_thingy_accel_y = LineDataSet(entries_thingy_accel_y, "Accel Y")
+//        dataSet_thingy_accel_z = LineDataSet(entries_thingy_accel_z, "Accel Z")
+//
+//        dataSet_thingy_accel_x.setDrawCircles(false)
+//        dataSet_thingy_accel_y.setDrawCircles(false)
+//        dataSet_thingy_accel_z.setDrawCircles(false)
+//
+//        dataSet_thingy_accel_x.setColor(
+//            ContextCompat.getColor(
+//                this,
+//                R.color.red
+//            )
+//        )
+//        dataSet_thingy_accel_y.setColor(
+//            ContextCompat.getColor(
+//                this,
+//                R.color.green
+//            )
+//        )
+//        dataSet_thingy_accel_z.setColor(
+//            ContextCompat.getColor(
+//                this,
+//                R.color.blue
+//            )
+//        )
+//
+//        val dataSetsThingy = ArrayList<ILineDataSet>()
+//        dataSetsThingy.add(dataSet_thingy_accel_x)
+//        dataSetsThingy.add(dataSet_thingy_accel_y)
+//        dataSetsThingy.add(dataSet_thingy_accel_z)
+//
+//        allThingyData = LineData(dataSetsThingy)
+//        thingyChart.data = allThingyData
+//        thingyChart.invalidate()
     }
 
     fun updateGraph(graph: String, x: Float, y: Float, z: Float) {
@@ -611,33 +626,33 @@ class LiveDataActivity : AppCompatActivity() {
     }
 
     private fun setupButton(){
-        RecordingButton = findViewById(R.id.start_button)
-
-
-
-        RecordingButton.setOnClickListener {
-
-            getInputs()
-
-            if (sensorType == "Respeck" && !respeckOn) {
-                Toast.makeText(this, "Respeck is not on! Check connection.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-
-            if (sensorType == "Thingy" && !thingyOn) {
-                Toast.makeText(this, "Thingy is not on! Check connection.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            Toast.makeText(this, "Starting recording", Toast.LENGTH_SHORT).show()
-
-//            disableView(RecordingButton)    //
+//        RecordingButton = findViewById(R.id.start_button)
 //
-//            disableView(sensorTypeSpinner)
-
-            startRecording()
-        }
+//
+//
+//        RecordingButton.setOnClickListener {
+//
+//            getInputs()
+//
+//            if (sensorType == "Respeck" && !respeckOn) {
+//                Toast.makeText(this, "Respeck is not on! Check connection.", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//
+//            if (sensorType == "Thingy" && !thingyOn) {
+//                Toast.makeText(this, "Thingy is not on! Check connection.", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//            Toast.makeText(this, "Starting recording", Toast.LENGTH_SHORT).show()
+//
+////            disableView(RecordingButton)    //
+////
+////            disableView(sensorTypeSpinner)
+//
+//            startRecording()
+//        }
 
     }
 

@@ -7,255 +7,344 @@
     android:layout_height="match_parent"
     android:background= "#F5F8FA">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title_live_respeck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Respeck Live Data"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_live_respeck"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="10dp"
-        />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/respeck_live_data"
-        app:layout_constraintTop_toBottomOf="@id/title_live_respeck"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/title_live_thingy"
-        android:gravity="center">
+        <TextView
+            android:id="@+id/title_live_respeck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Respeck Live Data"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/title_live_respeck"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/respeck_accel_live_data"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp">
-
-
-            <TextView
-                android:id="@+id/breathing_rate_sec"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="accel_x = "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/breathing_rate_min"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="accel_y = "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/breathing_rate_sec" />
-
-            <TextView
-                android:id="@+id/breathing_signal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="accel_z = "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/breathing_rate_min" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:orientation="vertical"
-            android:id="@+id/respeck_gyro_live_data"
-            android:layout_weight="1"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp">
-
-            <TextView
-                android:id="@+id/respeck_gyro_x"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="gyro_x = "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/respeck_gyro_y"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="gyro_y = "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_x" />
-
-            <TextView
-                android:id="@+id/respeck_gyro_z"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="gyro_z = "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_y" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-<!--    <LinearLayout
-        android:id="@+id/respeck_graphs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
-        >
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/respeck_chart"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="5dp"/>
-
-
-
-    </LinearLayout> -->
-
-    <TextView
-        android:id="@+id/title_live_thingy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thingy Live Data"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
-        app:layout_constraintBottom_toTopOf="@id/thingy_graphs"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/title_live_thingy"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/thingy_graphs"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/thingy_accel_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="accel = "
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:id="@+id/respeck_live_data"
+            app:layout_constraintTop_toBottomOf="@id/title_live_respeck"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/thingy_gyro_data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="gyro = "
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thingy_accel_data" />
+            app:layout_constraintBottom_toTopOf="@id/title_live_thingy"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/thingy_mag_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="mag = "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thingy_gyro_data" />
-
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/thingy_chart"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"/>
-
-        <TextView
-            android:id="@+id/prediction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Activity: "
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thingy_chart"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:id="@+id/confidence_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:text="Prediction_Confidence:"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/prediction" />
-
-        <TextView
-            android:id="@+id/confidence"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:text="0%"
-            android:textSize="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/confidence_label"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/sensor"
-        app:layout_constraintTop_toBottomOf="@id/confidence"
-        android:gravity="center">
-
-            <TextView
-                android:id="@+id/sensor_type_label"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Sensor type:"
+                android:orientation="vertical"
+                android:id="@+id/respeck_accel_live_data"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:paddingStart="10dp"/>
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp">
 
-            <Spinner
-                android:id="@+id/sensor_type_spinner"
-                android:layout_width="wrap_content"
+
+                <TextView
+                    android:id="@+id/breathing_rate_sec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="accel_x = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/breathing_rate_min"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="accel_y = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/breathing_rate_sec" />
+
+                <TextView
+                    android:id="@+id/breathing_signal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="accel_z = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/breathing_rate_min" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:id="@+id/respeck_gyro_live_data"
+                android:layout_weight="1"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp">
+
+                <TextView
+                    android:id="@+id/respeck_gyro_x"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="gyro_x = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/respeck_gyro_y"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="gyro_y = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_x" />
+
+                <TextView
+                    android:id="@+id/respeck_gyro_z"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gyro_z = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_y" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--    <LinearLayout
+                android:id="@+id/respeck_graphs"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
+                >
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/respeck_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="5dp"/>
 
 
-        <ImageButton
-            android:id="@+id/start_button"
+
+            </LinearLayout> -->
+
+        <TextView
+            android:id="@+id/title_live_thingy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/vd_play"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/button_bg_round"
-            app:layout_constraintTop_toBottomOf="@+id/confidence" />
+            android:text="Thingy Live Data"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
 
-         </LinearLayout>
-    </LinearLayout>
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/title_live_thingy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/respeck_pred"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/thingy_graphs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/thingy_accel_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="accel = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/thingy_gyro_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="gyro = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/thingy_accel_data" />
+
+                <TextView
+                    android:id="@+id/thingy_mag_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mag = "
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/thingy_gyro_data" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/RES_pred_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="respeck predict"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/respeck_pred"
+
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/RES_pred_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/RES_pred_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/RES_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Activity: "
+                android:textSize="15dp"/>
+            <TextView
+                android:id="@+id/RES_confidence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Prediction_Confidence:"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/THI_pred_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thingy predict"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/RES_pred_layout"
+
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/THI_pred_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/THI_pred_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/THI_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Activity: "
+                android:textSize="15dp"/>
+            <TextView
+                android:id="@+id/THI_confidence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Prediction_Confidence:"
+                android:textSize="15dp"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ALL_pred_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All predict"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/THI_pred_layout"
+
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ALL_pred_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/ALL_pred_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ALL_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Activity: "
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/ALL_confidence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Prediction_Confidence:"
+                android:textSize="15dp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Stat_pred_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Statistic predict"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ALL_pred_layout"
+
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/Stat_pred_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/Stat_pred_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Stat_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Activity: "
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/Stat_confidence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Prediction_Confidence:"
+                android:textSize="15dp" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
