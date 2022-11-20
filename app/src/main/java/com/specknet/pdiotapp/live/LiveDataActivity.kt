@@ -83,12 +83,27 @@ class LiveDataActivity : AppCompatActivity() {
     private lateinit var respeckOutputData: StringBuilder
     private lateinit var thingyOutputData: StringBuilder
 
-    var counttime = 0   //accumulate 50 data
+    var countTimeRepseck = 0   //accumulate 50 data
+    var countTimeThingy = 0
+
+    var countTimeAllThingy = 0
+    var countTimeAllRespeck = 0
+    var lockThingy = false
+    var lockRespeck = false
+
     var respeck_data = Array(50){FloatArray(6)}  //respeck array to store 50*6 data
     var thingy_data = Array(50){FloatArray(9)}   //thingy array to store 50*9 data
-    var averageIndex = Array(1){FloatArray(13){0f}}
-    var averageConfidence = Array(1){FloatArray(13){0f}}
-    var round = 0
+    var all_data = Array(50){FloatArray(15)}      //all array to store 50*15 data
+
+    var averageRespeckIndex = Array(1){FloatArray(13){0f}}
+    var averageRespeckConfidence = Array(1){FloatArray(13){0f}}
+    var roundRespeck = 0
+    var averageThingyIndex = Array(1){FloatArray(13){0f}}
+    var averageThingyConfidence = Array(1){FloatArray(13){0f}}
+    var roundThingy = 0
+    var averageAllIndex = Array(1){FloatArray(13){0f}}
+    var averageAllConfidence = Array(1){FloatArray(13){0f}}
+    var roundAll = 0
 
     val filterTestRespeck = IntentFilter(Constants.ACTION_RESPECK_LIVE_BROADCAST)
     val filterTestThingy = IntentFilter(Constants.ACTION_THINGY_BROADCAST)
@@ -246,110 +261,103 @@ class LiveDataActivity : AppCompatActivity() {
 
                 val action = intent.action
 
-                if (action == Constants.ACTION_RESPECK_LIVE_BROADCAST) {
+                if (true) {
 
-                    val liveData =
+                    val respeckLiveData =
                         intent.getSerializableExtra(Constants.RESPECK_LIVE_DATA) as RESpeckLiveData
-                    Log.d("Live", "onReceive: liveData = " + liveData)
-
-
+                    Log.d("Live", "onReceive: liveData = " + respeckLiveData)
 
                     // get all relevant intent contents
-                    val x = liveData.accelX
-                    val y = liveData.accelY
-                    val z = liveData.accelZ
+                    val xRespeck = respeckLiveData.accelX
+                    val yRespeck = respeckLiveData.accelY
+                    val zRespeck = respeckLiveData.accelZ
 
-                    val groy_x = liveData.gyro.x
-                    val groy_y = liveData.gyro.y
-                    val groy_z = liveData.gyro.z
+                    val groyXRespeck = respeckLiveData.gyro.x
+                    val groyYRespeck = respeckLiveData.gyro.y
+                    val groyZRespeck = respeckLiveData.gyro.z
 
-//                    val mag = sqrt((x*x + y*y + z*z).toDouble())
+                    if(countTimeRepseck<50){   //store 50*6 data into the respeck array
+                        respeck_data[countTimeRepseck][0] = respeckLiveData.accelX
+                        respeck_data[countTimeRepseck][1] = respeckLiveData.accelY
+                        respeck_data[countTimeRepseck][2] = respeckLiveData.accelZ
+                        respeck_data[countTimeRepseck][3] = respeckLiveData.gyro.x
+                        respeck_data[countTimeRepseck][4] = respeckLiveData.gyro.y
+                        respeck_data[countTimeRepseck][5] = respeckLiveData.gyro.z
 
-//                    val data =
-//                        RespeckData(
-//                            timestamp = 0L,
-//                            accel_x = x,
-//                            accel_y = y,
-//                            accel_z = z,
-//                            accel_mag = mag.toFloat(),
-//                            breathingSignal = 0f
-//                        )
-
-         //           val predictionWithConfidence = getPrediction(data) //come from the model
-
-//                    val predictionWithConfidence = getPrediction()
-//                    RES_pred_act = "Sitting/Standing"
-//                    RES_pred_con = (30..40).shuffled().last().toString()
-                    if (true) {
-                        val output = liveData.phoneTimestamp.toString() + "," +
-                                liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
-                                liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "\n"
-
-                        if(counttime<50){   //store 50*6 data into the respeck array
-                            respeck_data[counttime][0] = liveData.accelX
-                            respeck_data[counttime][1] = liveData.accelY
-                            respeck_data[counttime][2] = liveData.accelZ
-                            respeck_data[counttime][3] = liveData.gyro.x
-                            respeck_data[counttime][4] = liveData.gyro.y
-                            respeck_data[counttime][5] = liveData.gyro.z
-                            counttime++
-                            if (counttime == 50) {
-                                counttime = 0
-                            }
-//                            count()
+                        countTimeRepseck++
+                        if (countTimeRepseck == 50) {
+                            countTimeRepseck = 0
                         }
-//                        respeckOutputData.append(output)
+                    }
 
-                        // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
-                        var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
-                        RESbyteBuffer.order(ByteOrder.nativeOrder())
-                        for (i in 0 until 50) {
-                            for (j in respeck_data[i].indices) {
-                                RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
-                            }
+                    if (countTimeAllRespeck < 50 && !lockRespeck) {
+                        all_data[countTimeAllRespeck][9] = respeckLiveData.accelX
+                        all_data[countTimeAllRespeck][10] = respeckLiveData.accelY
+                        all_data[countTimeAllRespeck][11] = respeckLiveData.accelZ
+                        all_data[countTimeAllRespeck][12] = respeckLiveData.gyro.x
+                        all_data[countTimeAllRespeck][13] = respeckLiveData.gyro.y
+                        all_data[countTimeAllRespeck][14] = respeckLiveData.gyro.z
+
+                        countTimeAllRespeck++
+                        if (countTimeAllRespeck == 50) {
+                            countTimeAllRespeck = 0
+                            lockRespeck = true
                         }
-                        var RESoutput = Array(1){FloatArray(13){0f}}
-                        REStflite.run(RESbyteBuffer,RESoutput)
-                        var maxIdx = getMaxIdx(RESoutput)
-                        var label = labelsMap.getValue(maxIdx)
+                    }
 
-                        //RES_pred_act = label
-                        //RES_pred_con = RESoutput[0][maxIdx].toString()
-
-                        averageIndex[0][maxIdx] = averageIndex[0][maxIdx] + 1
-                        averageConfidence[0][maxIdx] = averageConfidence[0][maxIdx] + RESoutput[0][maxIdx]
-                        round++
-                        if (round == 10) {
-                            round = 0
-                            var maxAverageIdx = getMaxIdx(averageIndex)
-                            RES_pred_act = labelsMap.getValue(maxAverageIdx)
-                            var average_label_count = averageIndex[0][maxAverageIdx]
-                            var average_confidence = averageConfidence[0][maxAverageIdx] / average_label_count
-                            RES_pred_con = average_confidence.toString()
-                            averageIndex = Array(1){FloatArray(13){0f}}
-                            averageConfidence = Array(1){FloatArray(13){0f}}
+                    // Havn t test in the real sensor yet, but the test data shows the program s logic is correct.
+                    var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
+                    RESbyteBuffer.order(ByteOrder.nativeOrder())
+                    for (i in 0 until 50) {
+                        for (j in respeck_data[i].indices) {
+                            RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
                         }
+                    }
+                    var RESoutput = Array(1){FloatArray(13){0f}}
+                    REStflite.run(RESbyteBuffer,RESoutput)
+                    var maxIdxRespeck = getMaxIdx(RESoutput)
 
-                        Log.i("RES",label)
+                    averageRespeckIndex[0][maxIdxRespeck] = averageRespeckIndex[0][maxIdxRespeck] + 1
+                    averageRespeckConfidence[0][maxIdxRespeck] = averageRespeckConfidence[0][maxIdxRespeck] + RESoutput[0][maxIdxRespeck]
+
+                    roundRespeck++
+                    if (roundRespeck == 10) {
+                        roundRespeck = 0
+
+                        var maxAverageIdxRespeck = getMaxIdx(averageRespeckIndex)
+                        RES_pred_act = labelsMap.getValue(maxAverageIdxRespeck)
+
+                        var averageRespeckCount = averageRespeckIndex[0][maxAverageIdxRespeck]
+                        var respeckConfidence = averageRespeckConfidence[0][maxAverageIdxRespeck] / averageRespeckCount
+                        RES_pred_con = respeckConfidence.toString()
+
+                        averageRespeckIndex = Array(1){FloatArray(13){0f}}
+                        averageRespeckConfidence = Array(1){FloatArray(13){0f}}
+
                     }
 
                     runOnUiThread {    //real-time data show on the ui
-                        respeck_accel_x.text = "accel_x = " + x.toString()
-                        respeck_accel_y.text = "accel_y = " + y.toString()
-                        respeck_accel_z.text = "accel_z = " + z.toString()
-                        respeck_gyro_x.text = "gyro_x = " + groy_x.toString()
-                        respeck_gyro_y.text = "gyro_y = " + groy_y.toString()
-                        respeck_gyro_z.text = "gyro_z = " + groy_z.toString()
+                        respeck_accel_x.text = "accel_x = " + xRespeck.toString()
+                        respeck_accel_y.text = "accel_y = " + yRespeck.toString()
+                        respeck_accel_z.text = "accel_z = " + zRespeck.toString()
+                        respeck_gyro_x.text = "gyro_x = " + groyXRespeck.toString()
+                        respeck_gyro_y.text = "gyro_y = " + groyYRespeck.toString()
+                        respeck_gyro_z.text = "gyro_z = " + groyZRespeck.toString()
 
                         RES_Act.text = "Activity: " + RES_pred_act
                         RES_Con.text =  RES_pred_con
 
                     }
 
-                    time += 1
+//                    time += 1
 //                    updateGraph("respeck", x, y, z)
 
                     respeckOn = true    //the respeck bluetooth is on
+
+//                    time += 1
+//                    updateGraph("thingy", x, y, z)
+
+
 
                 }
             }
@@ -372,45 +380,119 @@ class LiveDataActivity : AppCompatActivity() {
 
                 if (action == Constants.ACTION_THINGY_BROADCAST) {
 
-                    val liveData =
+                    val thingyLiveData =
                         intent.getSerializableExtra(Constants.THINGY_LIVE_DATA) as ThingyLiveData
-                    Log.d("Live", "onReceive: liveData = " + liveData)
+                    Log.d("Live", "onReceive: liveData = $thingyLiveData")
 
                     // get all relevant intent contents
-                    val x = liveData.accelX
-                    val y = liveData.accelY
-                    val z = liveData.accelZ
+                    val xThingy = thingyLiveData.accelX
+                    val yThingy = thingyLiveData.accelY
+                    val zThingy = thingyLiveData.accelZ
 
-                    if (true) {
-                        val output = liveData.phoneTimestamp.toString() + "," +
-                                liveData.accelX + "," + liveData.accelY + "," + liveData.accelZ + "," +
-                                liveData.gyro.x + "," + liveData.gyro.y + "," + liveData.gyro.z + "," +
-                                liveData.mag.x + "," + liveData.mag.y + "," + liveData.mag.z + "\n"
+                    if(countTimeThingy<50){   //store 50*6 data into the respeck array
 
-                        if(counttime<50){   //store 50*9 into thing data array
-                            thingy_data[counttime][0] = liveData.accelX
-                            thingy_data[counttime][1] = liveData.accelY
-                            thingy_data[counttime][2] = liveData.accelZ
-                            thingy_data[counttime][3] = liveData.gyro.x
-                            thingy_data[counttime][4] = liveData.gyro.y
-                            thingy_data[counttime][5] = liveData.gyro.z
-                            thingy_data[counttime][6] = liveData.mag.x
-                            thingy_data[counttime][7] = liveData.mag.y
-                            thingy_data[counttime][8] = liveData.mag.z
-                            counttime++
-                            //count()
+                        thingy_data[countTimeThingy][0] = thingyLiveData.accelX
+                        thingy_data[countTimeThingy][1] = thingyLiveData.accelY
+                        thingy_data[countTimeThingy][2] = thingyLiveData.accelZ
+                        thingy_data[countTimeThingy][3] = thingyLiveData.gyro.x
+                        thingy_data[countTimeThingy][4] = thingyLiveData.gyro.y
+                        thingy_data[countTimeThingy][5] = thingyLiveData.gyro.z
+                        thingy_data[countTimeThingy][6] = thingyLiveData.mag.x
+                        thingy_data[countTimeThingy][7] = thingyLiveData.mag.y
+                        thingy_data[countTimeThingy][8] = thingyLiveData.mag.z
+
+                        countTimeThingy++
+                        if (countTimeThingy == 50) {
+                            countTimeThingy = 0
                         }
+                    }
 
-                        thingyOutputData.append(output)
+                    if (countTimeAllThingy < 50 && !lockThingy) {
+                        all_data[countTimeAllThingy][0] = thingyLiveData.accelX
+                        all_data[countTimeAllThingy][1] = thingyLiveData.accelY
+                        all_data[countTimeAllThingy][2] = thingyLiveData.accelZ
+                        all_data[countTimeAllThingy][3] = thingyLiveData.gyro.x
+                        all_data[countTimeAllThingy][4] = thingyLiveData.gyro.y
+                        all_data[countTimeAllThingy][5] = thingyLiveData.gyro.z
+                        all_data[countTimeAllThingy][6] = thingyLiveData.mag.x
+                        all_data[countTimeAllThingy][7] = thingyLiveData.mag.y
+                        all_data[countTimeAllThingy][8] = thingyLiveData.mag.z
+
+                        countTimeAllThingy++
+                        if (countTimeAllThingy == 50) {
+                            countTimeAllThingy = 0
+                            lockThingy = true
+                        }
+                    }
+
+                    var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*9*4)
+                    thingyByteBuffer.order(ByteOrder.nativeOrder())
+                    for (i in 0 until 50) {
+                        for (j in thingy_data[i].indices) {
+                            thingyByteBuffer.putFloat(thingy_data[i][j].toFloat())
+                        }
+                    }
+                    var thingyOutput = Array(1){FloatArray(13){0f}}
+                    THItflite.run(thingyByteBuffer,thingyOutput)
+                    var maxIdxThingy = getMaxIdx(thingyOutput)
+
+                    averageThingyIndex[0][maxIdxThingy] = averageThingyIndex[0][maxIdxThingy] + 1
+                    averageThingyConfidence[0][maxIdxThingy] = averageThingyConfidence[0][maxIdxThingy] + thingyOutput[0][maxIdxThingy]
+
+                    roundThingy++
+                    if (roundThingy == 10) {
+                        roundThingy = 0
+
+                        var maxAverageIdxThingy = getMaxIdx(averageThingyIndex)
+                        THI_pred_act = labelsMap.getValue(maxAverageIdxThingy)
+
+                        var averageThingyCount = averageThingyIndex[0][maxAverageIdxThingy]
+                        var thingyconfidence = averageThingyConfidence[0][maxAverageIdxThingy] / averageThingyCount
+                        THI_pred_con = thingyconfidence.toString()
+
+                        averageThingyIndex = Array(1){FloatArray(13){0f}}
+                        averageThingyConfidence = Array(1){FloatArray(13){0f}}
 
                     }
 
-//                  Complete the logic here for the THI and all
+                    if (lockThingy && lockRespeck) {
+                        var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*15*4)
+                        allByteBuffer.order(ByteOrder.nativeOrder())
+                        for (i in 0 until 50) {
+                            for (j in all_data[i].indices) {
+                                allByteBuffer.putFloat(all_data[i][j].toFloat())
+                            }
+                        }
+                        var allOutput = Array(1){FloatArray(13){0f}}
+                        ALLtflite.run(allByteBuffer,allOutput)
+                        var maxIdxAll = getMaxIdx(allOutput)
+
+                        averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
+                        averageAllConfidence[0][maxIdxAll] = averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
+
+                        roundAll++
+                        if (roundAll == 10) {
+                            roundAll = 0
+
+                            var maxAverageIdxAll = getMaxIdx(averageAllIndex)
+                            ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
+
+                            var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
+                            var allConfidence = averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
+                            ALL_pred_con = allConfidence.toString()
+
+                            averageAllIndex = Array(1){FloatArray(13){0f}}
+                            averageAllConfidence = Array(1){FloatArray(13){0f}}
+
+                        }
+                        lockRespeck = false
+                        lockThingy = false
+                    }
 
                     runOnUiThread {
-                        thingy_accel.text = "accel =("+ liveData.accelX+ liveData.accelY+ liveData.accelZ+")"
-                        thingy_gyro.text = "gyro =("+ liveData.gyro.x+ liveData.gyro.y+ liveData.gyro.z+")"
-                        thingy_mag.text = "mag =("+ liveData.mag.x+ liveData.mag.y+ liveData.mag.z+")"
+                        thingy_accel.text = "accel =("+ xThingy.toString()+ yThingy.toString()+ zThingy.toString()+")"
+                        thingy_gyro.text = "gyro =("+ thingyLiveData.gyro.x+ thingyLiveData.gyro.y+ thingyLiveData.gyro.z+")"
+                        thingy_mag.text = "mag =("+ thingyLiveData.mag.x+ thingyLiveData.mag.y+ thingyLiveData.mag.z+")"
 
                         THI_Act.text = "Activity: " + THI_pred_act
                         THI_Con.text =  THI_pred_con
@@ -422,14 +504,7 @@ class LiveDataActivity : AppCompatActivity() {
 
                     }
 
-                    time += 1
-//                    updateGraph("thingy", x, y, z)
-
                     thingyOn = true
-
-
-
-
 
                 }
             }
@@ -668,20 +743,20 @@ class LiveDataActivity : AppCompatActivity() {
         }
     }
 
-    private fun count(){   //once the thingy or respeck data array is full ,then stop recording
-        if(counttime == 49){
-            Toast.makeText(this, "Stop recording", Toast.LENGTH_SHORT).show()
-            mIsThingyRecording = false   //stop the recording
-            mIsRespeckRecording = false  //stop the recording
-//            enableView(RecordingButton)
-//            enableView(sensorTypeSpinner)
-            counttime = 0;
-            for(i in 0 until 50)
-                for(j in 0 until 6) {
-                    Log.v("datarecord:", respeck_data[i][j].toString())
-                }
-        }
-    }
+//    private fun count(){   //once the thingy or respeck data array is full ,then stop recording
+//        if(counttime == 49){
+//            Toast.makeText(this, "Stop recording", Toast.LENGTH_SHORT).show()
+//            mIsThingyRecording = false   //stop the recording
+//            mIsRespeckRecording = false  //stop the recording
+////            enableView(RecordingButton)
+////            enableView(sensorTypeSpinner)
+//            counttime = 0;
+//            for(i in 0 until 50)
+//                for(j in 0 until 6) {
+//                    Log.v("datarecord:", respeck_data[i][j].toString())
+//                }
+//        }
+//    }
 
     private fun getInputs(){
         sensorType = sensorTypeSpinner.selectedItem.toString()
