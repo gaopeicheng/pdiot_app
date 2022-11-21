@@ -90,6 +90,7 @@ class LiveDataActivity : AppCompatActivity() {
 
     var countTimeAllThingy = 0
     var countTimeAllRespeck = 0
+    var countTimeAll = 0
     var lockThingy = 0
     var lockRespeck = 1
 
@@ -289,7 +290,7 @@ class LiveDataActivity : AppCompatActivity() {
                     var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 6 * 4)
                     RESbyteBuffer.order(ByteOrder.nativeOrder())
                     for (i in 0 until 50) {
-                        for (j in respeck_data[i].indices) {
+                        for (j in 0 until 6) {
                             RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
                         }
                     }
@@ -354,11 +355,12 @@ class LiveDataActivity : AppCompatActivity() {
                         all_data[countTimeAllRespeck][14] = respeckLiveData.gyro.z
 
                         countTimeAllRespeck++
-                    }
-                    if (countTimeAllRespeck == 50) {
-                        countTimeAllRespeck = 0
+                        if (countTimeAllRespeck == 50) {
+                            countTimeAllRespeck = 0
+                        }
                     }
 
+                    //countTimeAll++
                     var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
                     allByteBuffer.order(ByteOrder.nativeOrder())
                     for (i in 0 until 50) {
@@ -448,7 +450,7 @@ class LiveDataActivity : AppCompatActivity() {
                     var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 9 * 4)
                     thingyByteBuffer.order(ByteOrder.nativeOrder())
                     for (i in 0 until 50) {
-                        for (j in thingy_data[i].indices) {
+                        for (j in 0 until 9) {
                             thingyByteBuffer.putFloat(thingy_data[i][j].toFloat())
                         }
                     }
@@ -508,9 +510,10 @@ class LiveDataActivity : AppCompatActivity() {
                         all_data[countTimeAllThingy][8] = thingyLiveData.mag.z
 
                         countTimeAllThingy++
-                    }
-                    if (countTimeAllThingy == 50) {
-                        countTimeAllThingy = 0
+                        if (countTimeAllThingy == 50) {
+                            countTimeAllThingy = 0
+                        }
+
                     }
 
                     var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
