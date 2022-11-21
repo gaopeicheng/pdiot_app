@@ -110,56 +110,23 @@ class LiveDataActivity : AppCompatActivity() {
     val filterTestRespeck = IntentFilter(Constants.ACTION_RESPECK_LIVE_BROADCAST)
     val filterTestThingy = IntentFilter(Constants.ACTION_THINGY_BROADCAST)
 
-    val test: Array<DoubleArray> = arrayOf(doubleArrayOf(0.125977,-1.205872,0.143982,16.125,6.1875,9.515625),
-        doubleArrayOf(0.104004,-0.896057,0.059509,15.46875,6.8125,18.0625),
-        doubleArrayOf(0.087402,-1.044495,0.060974,1.953125,-5.453125,15.625),
-        doubleArrayOf(0.058594,-0.935364,0.096619,-4.015625,-5.15625,10.71875),
-        doubleArrayOf(-0.037842,-0.858215,0.167419,-9.84375,-7.828125,9.671875),
-        doubleArrayOf(0.006348,-0.807434,0.12738,-9.265625,-9.765625,11.359375),
-        doubleArrayOf(0.013184,-0.736633,0.199158,-1.75,-7.796875,10.46875),
-        doubleArrayOf(0.028076,-0.747864,0.213562,-1.9375,-10.53125,11.4375),
-        doubleArrayOf(0.0271,-0.777405,0.240662,-0.125,-8.34375,10.859375),
-        doubleArrayOf(-0.008057,-0.82843,0.262634,2.109375,-8.71875,10.328125),
-        doubleArrayOf(-0.007812,-0.908752,0.271667,1.390625,-7.96875,10.0625),
-        doubleArrayOf(0.084961,-0.996155,0.277039,-0.8125,-8.5,7.828125),
-        doubleArrayOf(0.095215,-1.087219,0.388611,0.96875,-7.15625,1.4375),
-        doubleArrayOf(0.079102,-1.175598,0.392761,-3.375,-8.078125,-5.90625),
-        doubleArrayOf(0.143311,-1.538635,0.216492,-3.3125,-20.328125,-8.9375),
-        doubleArrayOf(-0.118164,-1.346008,0.298767,6.65625,0.953125,-8.53125),
-        doubleArrayOf(-0.118164,-0.934387,0.105652,3.140625,21.109375,-9.265625),
-        doubleArrayOf(-0.188721,-0.824768,-0.030334,2.890625,21.328125,-11.171875),
-        doubleArrayOf(0.058838,-0.960266,0.240417,9.75,7.46875,-12.015625),
-        doubleArrayOf(-0.233154,-0.954651,0.112244,1.53125,15.625,-14.390625),
-        doubleArrayOf(-0.045166,-0.745911,0.163757,0.890625,15.609375,-9.96875),
-        doubleArrayOf(-0.092041,-0.736877,0.184265,6.453125,13.078125,-9.484375),
-        doubleArrayOf(-0.106201,-0.727844,0.145447,6.109375,14.4375,-8.96875),
-        doubleArrayOf(-0.12915,-0.759827,0.15448,4.484375,14.21875,-8.03125),
-        doubleArrayOf(-0.131348,-0.804993,0.208191,5.25,12.390625,-6.953125),
-        doubleArrayOf(-0.134277,-0.885803,0.236267,5.890625,9.4375,-4.765625),
-        doubleArrayOf(-0.186523,-1.01886,0.2453,5.984375,10.78125,-3.25),
-        doubleArrayOf(-0.200439,-1.087708,0.271423,3.953125,12.390625,-2.515625),
-        doubleArrayOf(-0.223877,-1.227112,0.268982,3.359375,9.546875,-2.28125),
-        doubleArrayOf(-0.213135,-1.325012,0.301941,-2.09375,7.78125,3.203125),
-        doubleArrayOf(-0.238525,-1.344299,0.283386,-1.640625,5.84375,8.625),
-        doubleArrayOf(-0.186035,-1.408264,0.060974,1.90625,0.84375,8.609375),
-        doubleArrayOf(0.186279,-1.002014,-0.052795,12.046875,3.703125,16.25),
-        doubleArrayOf(0.198486,-0.872375,0.020935,16.890625,-6.125,20.09375),
-        doubleArrayOf(0.12207,-0.919006,0.009949,0.484375,-19.859375,19.09375),
-        doubleArrayOf(-0.028076,-0.963684,0.26532,-5.0,-17.296875,9.828125),
-        doubleArrayOf(-0.118408,-0.851624,0.14032,-16.15625,-18.796875,6.078125),
-        doubleArrayOf(-0.200928,-0.698303,0.149109,-14.53125,-4.25,2.765625),
-        doubleArrayOf(-0.020996,-0.70221,0.212097,-10.8125,-5.921875,0.59375),
-        doubleArrayOf(-0.005371,-0.722229,0.237976,-9.265625,-8.96875,1.03125),
-        doubleArrayOf(-0.078857,-0.742004,0.261414,-10.78125,-6.0,-1.828125),
-        doubleArrayOf(-0.041748,-0.790588,0.273865,-5.078125,-3.515625,-2.046875),
-        doubleArrayOf(-0.058105,-0.893616,0.396423,-3.8125,-2.359375,0.078125),
-        doubleArrayOf(-0.113525,-0.947083,0.452332,0.875,2.96875,-2.53125),
-        doubleArrayOf(-0.074707,-1.069885,0.481628,0.734375,4.125,-5.828125),
-        doubleArrayOf(-0.15332,-1.061584,0.524109,6.4375,13.75,-12.09375),
-        doubleArrayOf(-0.174072,-1.260803,0.297058,4.375,10.421875,-9.84375),
-        doubleArrayOf(-0.088867,-1.449036,0.304138,6.140625,8.1875,-12.828125),
-        doubleArrayOf(-0.287109,-1.46051,-0.020325,6.203125,29.921875,-15.8125),
-        doubleArrayOf(-0.136719,-0.990295,-0.211243,7.484375,34.171875,-12.234375))
+    var STAT_res_1_act =""
+    var STAT_res_1_con =""
+
+    var STAT_res_2_act =""
+    var STAT_res_2_con =""
+
+    var STAT_thi_1_act =""
+    var STAT_thi_1_con =""
+
+    var STAT_thi_2_act =""
+    var STAT_thi_2_con =""
+
+    var STAT_all_1_act =""
+    var STAT_all_1_con =""
+
+    var STAT_all_2_act =""
+    var STAT_all_2_con =""
 
     val labelsMap = mapOf<Int,String>(0 to "0 Sitting",   // need to match the network output
         1 to "1 Walking at normal speed",
@@ -224,8 +191,23 @@ class LiveDataActivity : AppCompatActivity() {
         var ALL_Act = findViewById<TextView>(R.id.ALL_activity)
         var ALL_Con = findViewById<TextView>(R.id.ALL_confidence)
 
-        var STAT_Act = findViewById<TextView>(R.id.Stat_activity)
-        var STAT_Con = findViewById<TextView>(R.id.Stat_confidence)
+        var STAT_res_fir_act = findViewById<TextView>(R.id.STAT_res_first_content)
+        var STAT_res_fir_con = findViewById<TextView>(R.id.STAT_res_con_first_content)
+
+        var STAT_res_sec_act = findViewById<TextView>(R.id.STAT_res_second_content)
+        var STAT_res_sec_con = findViewById<TextView>(R.id.STAT_res_con_second_content)
+
+        var STAT_thi_fir_act = findViewById<TextView>(R.id.STAT_thi_first_content)
+        var STAT_thi_fir_con = findViewById<TextView>(R.id.STAT_thi_con_first_content)
+
+        var STAT_thi_sec_act = findViewById<TextView>(R.id.STAT_thi_second_content)
+        var STAT_thi_sec_con = findViewById<TextView>(R.id.STAT_thi_con_second_content)
+
+        var STAT_all_fir_act = findViewById<TextView>(R.id.STAT_all_first_content)
+        var STAT_all_fir_con = findViewById<TextView>(R.id.STAT_all_con_first_content)
+
+        var STAT_all_sec_act = findViewById<TextView>(R.id.STAT_all_second_content)
+        var STAT_all_sec_con = findViewById<TextView>(R.id.STAT_all_con_second_content)
 
         start_stop_Button = findViewById(R.id.startstopButton)
 
@@ -299,11 +281,11 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_data[countTimeRepseck][5] = respeckLiveData.gyro.z
 
                         countTimeRepseck++
+                        if (countTimeRepseck == 50) {
+                            countTimeRepseck = 0
+                        }
                     }
 
-                    if (countTimeRepseck == 50) {
-                        countTimeRepseck = 0
-                    }
                     var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 6 * 4)
                     RESbyteBuffer.order(ByteOrder.nativeOrder())
                     for (i in 0 until 50) {
@@ -372,13 +354,50 @@ class LiveDataActivity : AppCompatActivity() {
                         all_data[countTimeAllRespeck][14] = respeckLiveData.gyro.z
 
                         countTimeAllRespeck++
-                        if (countTimeAllRespeck == 50) {
-                            countTimeAllRespeck = 0
-                        }
+                    }
+                    if (countTimeAllRespeck == 50) {
+                        countTimeAllRespeck = 0
                     }
 
-                    lockThingy++
+                    var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
+                    allByteBuffer.order(ByteOrder.nativeOrder())
+                    for (i in 0 until 50) {
+                        for (j in all_data[i].indices) {
+                            allByteBuffer.putFloat(all_data[i][j].toFloat())
+                        }
+                    }
+                    var allOutput = Array(1) { FloatArray(13) { 0f } }
+                    ALLtflite.run(allByteBuffer, allOutput)
+                    var maxIdxAll = getMaxIdx(allOutput)
 
+                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
+                    averageAllConfidence[0][maxIdxAll] =
+                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
+                    roundAll++
+
+                    if (roundAll == 10) {
+                        roundAll = 0
+
+                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
+                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
+
+                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
+                        var allConfidence =
+                            averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
+                        ALL_pred_con = allConfidence.toString()
+
+                        averageAllIndex = Array(1) { FloatArray(13) { 0f } }
+                        averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
+
+                    }
+                    runOnUiThread {
+                        ALL_Act.text = "Activity: " + ALL_pred_act
+                        ALL_Con.text =  ALL_pred_con
+
+                        // Statistc? maybe
+
+                    }
+                    lockThingy++
                 }
             }
         }
@@ -422,10 +441,9 @@ class LiveDataActivity : AppCompatActivity() {
                         thingy_data[countTimeThingy][8] = thingyLiveData.mag.z
 
                         countTimeThingy++
-                    }
-
-                    if (countTimeThingy == 50) {
-                        countTimeThingy = 0
+                        if (countTimeThingy == 50) {
+                            countTimeThingy = 0
+                        }
                     }
                     var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 9 * 4)
                     thingyByteBuffer.order(ByteOrder.nativeOrder())
@@ -491,45 +509,41 @@ class LiveDataActivity : AppCompatActivity() {
 
                         countTimeAllThingy++
                     }
-
                     if (countTimeAllThingy == 50) {
                         countTimeAllThingy = 0
                     }
-                    if(true) {
-                        var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
-                        allByteBuffer.order(ByteOrder.nativeOrder())
-                        for (i in 0 until 50) {
-                            for (j in all_data[i].indices) {
-                                allByteBuffer.putFloat(all_data[i][j].toFloat())
-                            }
+
+                    var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
+                    allByteBuffer.order(ByteOrder.nativeOrder())
+                    for (i in 0 until 50) {
+                        for (j in all_data[i].indices) {
+                            allByteBuffer.putFloat(all_data[i][j].toFloat())
                         }
-                        var allOutput = Array(1) { FloatArray(13) { 0f } }
-                        ALLtflite.run(allByteBuffer, allOutput)
-                        var maxIdxAll = getMaxIdx(allOutput)
-
-                        averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
-                        averageAllConfidence[0][maxIdxAll] =
-                            averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
-                        roundAll++
-
-                        if (roundAll == 10) {
-                            roundAll = 0
-
-                            var maxAverageIdxAll = getMaxIdx(averageAllIndex)
-                            ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
-
-                            var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
-                            var allConfidence =
-                                averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
-                            ALL_pred_con = allConfidence.toString()
-
-                            averageAllIndex = Array(1) { FloatArray(13) { 0f } }
-                            averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
-
-                        }
-                        lockRespeck++
                     }
+                    var allOutput = Array(1) { FloatArray(13) { 0f } }
+                    ALLtflite.run(allByteBuffer, allOutput)
+                    var maxIdxAll = getMaxIdx(allOutput)
 
+                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
+                    averageAllConfidence[0][maxIdxAll] =
+                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
+                    roundAll++
+
+                    if (roundAll == 10) {
+                        roundAll = 0
+
+                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
+                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
+
+                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
+                        var allConfidence =
+                            averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
+                        ALL_pred_con = allConfidence.toString()
+
+                        averageAllIndex = Array(1) { FloatArray(13) { 0f } }
+                        averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
+
+                    }
                     runOnUiThread {
                         ALL_Act.text = "Activity: " + ALL_pred_act
                         ALL_Con.text =  ALL_pred_con
@@ -537,7 +551,7 @@ class LiveDataActivity : AppCompatActivity() {
                         // Statistc? maybe
 
                     }
-
+                    lockRespeck++
                 }
             }
         }
