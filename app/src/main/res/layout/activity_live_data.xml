@@ -16,11 +16,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Respeck Live Data"
+            android:textSize="50px"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/title_live_respeck"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             />
 
@@ -51,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="accel_x = "
+                    android:text="  accel_x = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +62,7 @@
                     android:id="@+id/breathing_rate_min"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="accel_y = "
+                    android:text="  accel_y = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/breathing_rate_sec" />
@@ -69,7 +71,7 @@
                     android:id="@+id/breathing_signal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="accel_z = "
+                    android:text="  accel_z = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/breathing_rate_min" />
@@ -139,6 +141,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thingy Live Data"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
@@ -166,7 +171,7 @@
                     android:id="@+id/thingy_accel_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="accel = "
+                    android:text="  accel = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -175,7 +180,7 @@
                     android:id="@+id/thingy_gyro_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="gyro = "
+                    android:text="  gyro = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thingy_accel_data" />
@@ -184,7 +189,7 @@
                     android:id="@+id/thingy_mag_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="mag = "
+                    android:text="  mag = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thingy_gyro_data" />
@@ -197,7 +202,10 @@
             android:id="@+id/RES_pred_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="respeck predict"
+            android:text="Respeck predict"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/respeck_pred"
@@ -218,14 +226,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Activity: "
+                android:text="  Activity: "
                 android:textSize="15dp"/>
             <TextView
                 android:id="@+id/RES_confidence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Prediction_Confidence:"
+                android:text="  Prediction_Confidence:"
                 android:textSize="15dp" />
 
         </LinearLayout>
@@ -235,6 +243,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thingy predict"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/RES_pred_layout"
@@ -255,14 +266,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Activity: "
+                android:text="  Activity: "
                 android:textSize="15dp"/>
             <TextView
                 android:id="@+id/THI_confidence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Prediction_Confidence:"
+                android:text="  Prediction_Confidence:"
                 android:textSize="15dp"/>
 
 
@@ -273,6 +284,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="All predict"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/THI_pred_layout"
@@ -293,7 +307,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Activity: "
+                android:text="  Activity: "
                 android:textSize="15dp"/>
 
             <TextView
@@ -301,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Prediction_Confidence:"
+                android:text="  Prediction_Confidence:"
                 android:textSize="15dp" />
 
 
@@ -312,6 +326,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Predictions over the last 30 seconds"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ALL_pred_layout"
@@ -359,7 +376,7 @@
 
             <LinearLayout
                 android:id="@+id/stats_left"
-                android:layout_width="602dp"
+                android:layout_width="506dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -373,7 +390,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="RES activity with the highest probability"
+                    android:text="  RES highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -392,7 +409,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="RES activity with the second highest probability"
+                    android:text="  RES 2nd highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -411,7 +428,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="THI activity with the highest probability"
+                    android:text="  THI highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -430,7 +447,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="THI activity with the second highest probability"
+                    android:text="  THI 2nd highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -449,7 +466,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="ALL activity with the highest probability"
+                    android:text="  ALL highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -468,7 +485,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="ALL activity with the second highest probability"
+                    android:text="  ALL 2nd highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
