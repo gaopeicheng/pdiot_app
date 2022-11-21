@@ -219,6 +219,9 @@ class LiveDataActivity : AppCompatActivity() {
             }else{
                 start_stop_Button.text = "Start"
                 startflag = false
+                respeck_data = Array(50){FloatArray(6)}
+                thingy_data = Array(50){FloatArray(9)}
+                all_data = Array(50){FloatArray(15)}
             }
         }
 
@@ -282,43 +285,48 @@ class LiveDataActivity : AppCompatActivity() {
                         respeck_data[countTimeRepseck][5] = respeckLiveData.gyro.z
 
                         countTimeRepseck++
-                        if (countTimeRepseck == 50) {
-                            countTimeRepseck = 0
+                    }
+                    else {
+                        countTimeRepseck = 0
+                    }
+
+                    if (countTimeRepseck % 10 == 0) {
+                        var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 6 * 4)
+                        RESbyteBuffer.order(ByteOrder.nativeOrder())
+                        for (i in 0 until 50) {
+                            for (j in 0 until 6) {
+                                RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
+                            }
                         }
+                        var RESoutput = Array(1) { FloatArray(13) { 0f } }
+                        REStflite.run(RESbyteBuffer, RESoutput)
+                        var maxIdxRespeck = getMaxIdx(RESoutput)
+
+                        RES_pred_act = labelsMap.getValue(maxIdxRespeck)
+                        RES_pred_con = RESoutput[0][maxIdxRespeck].toString()
                     }
 
-                    var RESbyteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 6 * 4)
-                    RESbyteBuffer.order(ByteOrder.nativeOrder())
-                    for (i in 0 until 50) {
-                        for (j in 0 until 6) {
-                            RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
-                        }
-                    }
-                    var RESoutput = Array(1) { FloatArray(13) { 0f } }
-                    REStflite.run(RESbyteBuffer, RESoutput)
-                    var maxIdxRespeck = getMaxIdx(RESoutput)
+//                    averageRespeckIndex[0][maxIdxRespeck] =
+//                        averageRespeckIndex[0][maxIdxRespeck] + 1
+//                    averageRespeckConfidence[0][maxIdxRespeck] =
+//                        averageRespeckConfidence[0][maxIdxRespeck] + RESoutput[0][maxIdxRespeck]
+//                    roundRespeck++
 
-                    averageRespeckIndex[0][maxIdxRespeck] =
-                        averageRespeckIndex[0][maxIdxRespeck] + 1
-                    averageRespeckConfidence[0][maxIdxRespeck] =
-                        averageRespeckConfidence[0][maxIdxRespeck] + RESoutput[0][maxIdxRespeck]
-                    roundRespeck++
-
-                    if (roundRespeck == 10) {
-                        roundRespeck = 0
-
-                        var maxAverageIdxRespeck = getMaxIdx(averageRespeckIndex)
-                        RES_pred_act = labelsMap.getValue(maxAverageIdxRespeck)
-
-                        var averageRespeckCount = averageRespeckIndex[0][maxAverageIdxRespeck]
-                        var respeckConfidence =
-                            averageRespeckConfidence[0][maxAverageIdxRespeck] / averageRespeckCount
-                        RES_pred_con = respeckConfidence.toString()
-
-                        averageRespeckIndex = Array(1) { FloatArray(13) { 0f } }
-                        averageRespeckConfidence = Array(1) { FloatArray(13) { 0f } }
-
-                    }
+//                    if (roundRespeck == 10) {
+//                        roundRespeck = 0
+//
+//                        var maxAverageIdxRespeck = getMaxIdx(averageRespeckIndex)
+//                        RES_pred_act = labelsMap.getValue(maxAverageIdxRespeck)
+//
+//                        var averageRespeckCount = averageRespeckIndex[0][maxAverageIdxRespeck]
+//                        var respeckConfidence =
+//                            averageRespeckConfidence[0][maxAverageIdxRespeck] / averageRespeckCount
+//                        RES_pred_con = respeckConfidence.toString()
+//
+//                        averageRespeckIndex = Array(1) { FloatArray(13) { 0f } }
+//                        averageRespeckConfidence = Array(1) { FloatArray(13) { 0f } }
+//
+//                    }
 
                     runOnUiThread {    //real-time data show on the ui
                         respeck_accel_x.text = "accel_x = " + xRespeck.toString()
@@ -355,50 +363,53 @@ class LiveDataActivity : AppCompatActivity() {
                         all_data[countTimeAllRespeck][14] = respeckLiveData.gyro.z
 
                         countTimeAllRespeck++
-                        if (countTimeAllRespeck == 50) {
-                            countTimeAllRespeck = 0
-                        }
+                    }
+                    else {
+                        countTimeAllRespeck = 0
                     }
 
-                    //countTimeAll++
-                    var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
-                    allByteBuffer.order(ByteOrder.nativeOrder())
-                    for (i in 0 until 50) {
-                        for (j in all_data[i].indices) {
-                            allByteBuffer.putFloat(all_data[i][j].toFloat())
-                        }
-                    }
-                    var allOutput = Array(1) { FloatArray(13) { 0f } }
-                    ALLtflite.run(allByteBuffer, allOutput)
-                    var maxIdxAll = getMaxIdx(allOutput)
-
-                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
-                    averageAllConfidence[0][maxIdxAll] =
-                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
-                    roundAll++
-
-                    if (roundAll == 10) {
-                        roundAll = 0
-
-                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
-                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
-
-                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
-                        var allConfidence =
-                            averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
-                        ALL_pred_con = allConfidence.toString()
-
-                        averageAllIndex = Array(1) { FloatArray(13) { 0f } }
-                        averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
-
-                    }
-                    runOnUiThread {
-                        ALL_Act.text = "Activity: " + ALL_pred_act
-                        ALL_Con.text =  ALL_pred_con
-
-                        // Statistc? maybe
-
-                    }
+//                    if (countTimeAllRespeck % 10 == 0) {
+//                        var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
+//                        allByteBuffer.order(ByteOrder.nativeOrder())
+//                        for (i in 0 until 50) {
+//                            for (j in all_data[i].indices) {
+//                                allByteBuffer.putFloat(all_data[i][j].toFloat())
+//                            }
+//                        }
+//                        var allOutput = Array(1) { FloatArray(13) { 0f } }
+//                        ALLtflite.run(allByteBuffer, allOutput)
+//                        var maxIdxAll = getMaxIdx(allOutput)
+//
+//                        ALL_pred_act = labelsMap.getValue(maxIdxAll)
+//                        ALL_pred_con = allOutput[0][maxIdxAll].toString()
+//                    }
+////                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
+////                    averageAllConfidence[0][maxIdxAll] =
+////                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
+////                    roundAll++
+////
+////                    if (roundAll == 10) {
+////                        roundAll = 0
+////
+////                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
+////                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
+////
+////                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
+////                        var allConfidence =
+////                            averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
+////                        ALL_pred_con = allConfidence.toString()
+////
+////                        averageAllIndex = Array(1) { FloatArray(13) { 0f } }
+////                        averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
+////
+////                    }
+//                    runOnUiThread {
+//                        ALL_Act.text = "Activity: " + ALL_pred_act
+//                        ALL_Con.text =  ALL_pred_con
+//
+//                        // Statistc? maybe
+//
+//                    }
                     lockThingy++
                 }
             }
@@ -443,42 +454,49 @@ class LiveDataActivity : AppCompatActivity() {
                         thingy_data[countTimeThingy][8] = thingyLiveData.mag.z
 
                         countTimeThingy++
-                        if (countTimeThingy == 50) {
-                            countTimeThingy = 0
+                    }
+                    else {
+                        countTimeThingy = 0
+                    }
+
+                    if (countTimeThingy % 10 == 0) {
+                        var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 9 * 4)
+                        thingyByteBuffer.order(ByteOrder.nativeOrder())
+                        for (i in 0 until 50) {
+                            for (j in 0 until 9) {
+                                thingyByteBuffer.putFloat(thingy_data[i][j].toFloat())
+                            }
                         }
-                    }
-                    var thingyByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 9 * 4)
-                    thingyByteBuffer.order(ByteOrder.nativeOrder())
-                    for (i in 0 until 50) {
-                        for (j in 0 until 9) {
-                            thingyByteBuffer.putFloat(thingy_data[i][j].toFloat())
-                        }
-                    }
-                    var thingyOutput = Array(1) { FloatArray(13) { 0f } }
-                    THItflite.run(thingyByteBuffer, thingyOutput)
-                    var maxIdxThingy = getMaxIdx(thingyOutput)
+                        var thingyOutput = Array(1) { FloatArray(13) { 0f } }
+                        THItflite.run(thingyByteBuffer, thingyOutput)
+                        var maxIdxThingy = getMaxIdx(thingyOutput)
 
-                    averageThingyIndex[0][maxIdxThingy] =
-                        averageThingyIndex[0][maxIdxThingy] + 1
-                    averageThingyConfidence[0][maxIdxThingy] =
-                        averageThingyConfidence[0][maxIdxThingy] + thingyOutput[0][maxIdxThingy]
-                    roundThingy++
-
-                    if (roundThingy == 10) {
-                        roundThingy = 0
-
-                        var maxAverageIdxThingy = getMaxIdx(averageThingyIndex)
-                        THI_pred_act = labelsMap.getValue(maxAverageIdxThingy)
-
-                        var averageThingyCount = averageThingyIndex[0][maxAverageIdxThingy]
-                        var thingyconfidence =
-                            averageThingyConfidence[0][maxAverageIdxThingy] / averageThingyCount
-                        THI_pred_con = thingyconfidence.toString()
-
-                        averageThingyIndex = Array(1) { FloatArray(13) { 0f } }
-                        averageThingyConfidence = Array(1) { FloatArray(13) { 0f } }
+                        THI_pred_act = labelsMap.getValue(maxIdxThingy)
+                        THI_pred_con = thingyOutput[0][maxIdxThingy].toString()
 
                     }
+
+//                    averageThingyIndex[0][maxIdxThingy] =
+//                        averageThingyIndex[0][maxIdxThingy] + 1
+//                    averageThingyConfidence[0][maxIdxThingy] =
+//                        averageThingyConfidence[0][maxIdxThingy] + thingyOutput[0][maxIdxThingy]
+//                    roundThingy++
+//
+//                    if (roundThingy == 10) {
+//                        roundThingy = 0
+//
+//                        var maxAverageIdxThingy = getMaxIdx(averageThingyIndex)
+//                        THI_pred_act = labelsMap.getValue(maxAverageIdxThingy)
+//
+//                        var averageThingyCount = averageThingyIndex[0][maxAverageIdxThingy]
+//                        var thingyconfidence =
+//                            averageThingyConfidence[0][maxAverageIdxThingy] / averageThingyCount
+//                        THI_pred_con = thingyconfidence.toString()
+//
+//                        averageThingyIndex = Array(1) { FloatArray(13) { 0f } }
+//                        averageThingyConfidence = Array(1) { FloatArray(13) { 0f } }
+//
+//                    }
 
                     runOnUiThread {
                         thingy_accel.text =
@@ -515,38 +533,41 @@ class LiveDataActivity : AppCompatActivity() {
                         }
 
                     }
-
-                    var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
-                    allByteBuffer.order(ByteOrder.nativeOrder())
-                    for (i in 0 until 50) {
-                        for (j in all_data[i].indices) {
-                            allByteBuffer.putFloat(all_data[i][j].toFloat())
+                    if (countTimeAllThingy % 10 == 0) {
+                        var allByteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50 * 15 * 4)
+                        allByteBuffer.order(ByteOrder.nativeOrder())
+                        for (i in 0 until 50) {
+                            for (j in all_data[i].indices) {
+                                allByteBuffer.putFloat(all_data[i][j].toFloat())
+                            }
                         }
+                        var allOutput = Array(1) { FloatArray(13) { 0f } }
+                        ALLtflite.run(allByteBuffer, allOutput)
+                        var maxIdxAll = getMaxIdx(allOutput)
+
+                        ALL_pred_act = labelsMap.getValue(maxIdxAll)
+                        ALL_pred_con = allOutput[0][maxIdxAll].toString()
                     }
-                    var allOutput = Array(1) { FloatArray(13) { 0f } }
-                    ALLtflite.run(allByteBuffer, allOutput)
-                    var maxIdxAll = getMaxIdx(allOutput)
-
-                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
-                    averageAllConfidence[0][maxIdxAll] =
-                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
-                    roundAll++
-
-                    if (roundAll == 10) {
-                        roundAll = 0
-
-                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
-                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
-
-                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
-                        var allConfidence =
-                            averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
-                        ALL_pred_con = allConfidence.toString()
-
-                        averageAllIndex = Array(1) { FloatArray(13) { 0f } }
-                        averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
-
-                    }
+//                    averageAllIndex[0][maxIdxAll] = averageAllIndex[0][maxIdxAll] + 1
+//                    averageAllConfidence[0][maxIdxAll] =
+//                        averageAllConfidence[0][maxIdxAll] + allOutput[0][maxIdxAll]
+//                    roundAll++
+//
+//                    if (roundAll == 10) {
+//                        roundAll = 0
+//
+//                        var maxAverageIdxAll = getMaxIdx(averageAllIndex)
+//                        ALL_pred_act = labelsMap.getValue(maxAverageIdxAll)
+//
+//                        var averageAllCount = averageAllIndex[0][maxAverageIdxAll]
+//                        var allConfidence =
+//                            averageAllConfidence[0][maxAverageIdxAll] / averageAllCount
+//                        ALL_pred_con = allConfidence.toString()
+//
+//                        averageAllIndex = Array(1) { FloatArray(13) { 0f } }
+//                        averageAllConfidence = Array(1) { FloatArray(13) { 0f } }
+//
+//                    }
                     runOnUiThread {
                         ALL_Act.text = "Activity: " + ALL_pred_act
                         ALL_Con.text =  ALL_pred_con
