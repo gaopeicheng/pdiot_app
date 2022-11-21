@@ -353,7 +353,7 @@
             android:id="@+id/Stat_pred_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Predictions over the last 30 seconds"
+            android:text="Predictions over the last 10 seconds"
             android:textSize="50px"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
