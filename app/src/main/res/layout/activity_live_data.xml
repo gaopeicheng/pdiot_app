@@ -16,16 +16,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Respeck Live Data"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:textColor="#14171A"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/title_live_respeck"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             />
 
         <LinearLayout
+
             android:layout_width="0dp"
+            android:background="#E1E8ED"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/respeck_live_data"
@@ -47,29 +52,32 @@
 
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/breathing_rate_sec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="accel_x = "
+                    android:text="  accel_x = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/breathing_rate_min"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="accel_y = "
+                    android:text="  accel_y = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/breathing_rate_sec" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/breathing_signal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="accel_z = "
+                    android:text="  accel_z = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/breathing_rate_min" />
@@ -77,6 +85,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
+
                 android:layout_height="match_parent"
                 android:gravity="top"
                 android:orientation="vertical"
@@ -86,6 +95,7 @@
                 android:paddingEnd="3dp">
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/respeck_gyro_x"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,6 +106,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/respeck_gyro_y"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,6 +116,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/respeck_gyro_x" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/respeck_gyro_z"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,10 +147,14 @@
             </LinearLayout> -->
 
         <TextView
+            android:textColor="#14171A"
             android:id="@+id/title_live_thingy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thingy Live Data"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/respeck_live_data"
@@ -158,33 +174,37 @@
 
             <LinearLayout
                 android:id="@+id/thingy_graphs"
+                android:background="#E1E8ED"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/thingy_accel_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="accel = "
+                    android:text="  accel = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/thingy_gyro_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="gyro = "
+                    android:text="  gyro = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thingy_accel_data" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/thingy_mag_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="mag = "
+                    android:text="  mag = "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thingy_gyro_data" />
@@ -194,10 +214,14 @@
 
         </LinearLayout>
         <TextView
+            android:textColor="#14171A"
             android:id="@+id/RES_pred_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="respeck predict"
+            android:text="Respeck predict"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/respeck_pred"
@@ -207,6 +231,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#E1E8ED"
             app:layout_constraintTop_toBottomOf="@id/RES_pred_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -214,27 +239,33 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="#14171A"
                 android:id="@+id/RES_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Activity: "
+                android:text="  Activity: "
                 android:textSize="15dp"/>
             <TextView
+                android:textColor="#14171A"
                 android:id="@+id/RES_confidence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Prediction_Confidence:"
+                android:text="  Prediction_Confidence:"
                 android:textSize="15dp" />
 
         </LinearLayout>
 
         <TextView
+            android:textColor="#14171A"
             android:id="@+id/THI_pred_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thingy predict"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/RES_pred_layout"
@@ -243,6 +274,7 @@
             android:orientation="horizontal" />
         <LinearLayout
             android:layout_width="match_parent"
+            android:background="#E1E8ED"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/THI_pred_title"
             app:layout_constraintStart_toStartOf="parent"
@@ -251,28 +283,34 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="#14171A"
                 android:id="@+id/THI_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Activity: "
+                android:text="  Activity: "
                 android:textSize="15dp"/>
             <TextView
+                android:textColor="#14171A"
                 android:id="@+id/THI_confidence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Prediction_Confidence:"
+                android:text="  Prediction_Confidence:"
                 android:textSize="15dp"/>
 
 
         </LinearLayout>
 
         <TextView
+            android:textColor="#14171A"
             android:id="@+id/ALL_pred_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="All predict"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/THI_pred_layout"
@@ -281,6 +319,7 @@
             android:orientation="horizontal" />
         <LinearLayout
             android:layout_width="match_parent"
+            android:background="#E1E8ED"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/ALL_pred_title"
             app:layout_constraintStart_toStartOf="parent"
@@ -289,67 +328,47 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="#14171A"
                 android:id="@+id/ALL_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Activity: "
+                android:text="  Activity: "
                 android:textSize="15dp"/>
 
             <TextView
+                android:textColor="#14171A"
                 android:id="@+id/ALL_confidence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Prediction_Confidence:"
+                android:text="  Prediction_Confidence:"
                 android:textSize="15dp" />
 
 
         </LinearLayout>
 
         <TextView
+            android:textColor="#14171A"
             android:id="@+id/Stat_pred_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Predictions over the last 30 seconds"
+            android:textSize="50px"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ALL_pred_layout"
 
             android:layout_marginBottom="10dp"
             android:orientation="horizontal" />
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/Stat_pred_title"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            android:id="@+id/Stat_pred_layout"-->
-        <!--            android:orientation="vertical">-->
 
-        <!--            <TextView-->
-        <!--                android:id="@+id/Stat_activity"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginTop="5dp"-->
-        <!--                android:text="Activity: "-->
-        <!--                android:textSize="15dp"/>-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/Stat_confidence"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginTop="1dp"-->
-        <!--                android:text="Prediction_Confidence:"-->
-        <!--                android:textSize="15dp" />-->
-
-
-        <!--        </LinearLayout>-->
 
 
         <LinearLayout
             android:layout_width="match_parent"
-
+            android:background="#E1E8ED"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/Stat_pred_title"
             app:layout_constraintStart_toStartOf="parent"
@@ -359,7 +378,7 @@
 
             <LinearLayout
                 android:id="@+id/stats_left"
-                android:layout_width="602dp"
+                android:layout_width="506dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -369,16 +388,18 @@
 
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="RES activity with the highest probability"
+                    android:text="  RES highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_first_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -388,16 +409,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/STAT_res_first" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="RES activity with the second highest probability"
+                    android:text="  RES 2nd highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_second_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -407,16 +430,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/STAT_res_second" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="THI activity with the highest probability"
+                    android:text="  THI highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_first_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -426,16 +451,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/STAT_thi_first" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="THI activity with the second highest probability"
+                    android:text="  THI 2nd highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_second_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -445,16 +472,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/STAT_thi_second" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="ALL activity with the highest probability"
+                    android:text="  ALL highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_first_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -464,16 +493,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/STAT_all_first" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="ALL activity with the second highest probability"
+                    android:text="  ALL 2nd highest probability activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_second_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -495,6 +526,7 @@
                 android:paddingEnd="3dp">
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_con_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -505,6 +537,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_con_first_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -514,6 +547,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/STAT_res_con_first" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_con_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -524,6 +558,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_res_con_second_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -532,6 +567,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/STAT_res_con_second" />
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_con_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -542,6 +578,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_con_first_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -550,6 +587,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/STAT_thi_con_first" />
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_con_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -560,6 +598,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_thi_con_second_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -568,6 +607,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/STAT_thi_con_second" />
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_con_first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -578,6 +618,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_con_first_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -586,6 +627,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/STAT_all_con_first" />
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_con_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -596,6 +638,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:textColor="#14171A"
                     android:id="@+id/STAT_all_con_second_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -612,6 +655,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="start"
+            android:background="#AAB8C2"
+            android:textColor="#14171A"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
