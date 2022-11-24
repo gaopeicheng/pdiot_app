@@ -108,12 +108,12 @@ class LiveDataActivity : AppCompatActivity() {
     var thingy_data_30s = Array(50){FloatArray(9)}
     var all_data_30s = Array(50){FloatArray(15)}
 
-    var thingyMaxIdx30s = Array(1){Array(13){0}}
-    var thingyConfidence30s = Array(1){FloatArray(13){0f}}
-    var respeckMaxIdx30s = Array(1){Array(13){0}}
-    var respeckConfidence30s = Array(1){FloatArray(13){0f}}
-    var allMaxIdx30s = Array(1){Array(13){0}}
-    var allConfidence30s = Array(1){FloatArray(13){0f}}
+    var thingyMaxIdx30s = Array(1){Array(14){0}}
+    var thingyConfidence30s = Array(1){FloatArray(14){0f}}
+    var respeckMaxIdx30s = Array(1){Array(14){0}}
+    var respeckConfidence30s = Array(1){FloatArray(14){0f}}
+    var allMaxIdx30s = Array(1){Array(14){0}}
+    var allConfidence30s = Array(1){FloatArray(14){0f}}
 
     var roundThingy = 0
     var roundRespeck = 0
@@ -140,19 +140,20 @@ class LiveDataActivity : AppCompatActivity() {
     var STAT_all_2_act =""
     var STAT_all_2_con =""
 
-    val labelsMap = mapOf<Int,String>(0 to "0 Sitting",   // need to match the network output
-        1 to "1 Walking at normal speed",
-        2 to "2 Lying down on back",
-        3 to "4 Sitting bent forward",
-        4 to "5 Sitting bent backward",
-        5 to "6 Lying down right",
-        6 to "7 Lying down left",
-        7 to "8 Lying down on stomach",
+    val labelsMap = mapOf<Int,String>(0 to "12 Climbing stairs"  ,
+        1 to "13 Descending stairs",
+        2 to "31 Desk work",
+        3 to "7 Lying down left"   ,
+        4 to "2 Lying down on back"   ,
+        5 to "8 Lying down on stomach",
+        6 to "6 Lying down right",
+        7 to "9 Movement",
         8 to "11 Running",
-        9 to "12 Climbing stairs",
-        10 to "13 Descending stairs",
-        11 to "31 Desk work",
-        1 to "100 Standing")
+        9 to "0 Sitting",
+        10 to "5 Sitting bent backward",
+        11 to "4 Sitting bent forward",
+        12 to "100 Standing",
+        13 to "1 Walking at normal speed")
 
     private val nnApiDelegate by lazy  {
         NnApiDelegate()
@@ -232,41 +233,14 @@ class LiveDataActivity : AppCompatActivity() {
                 startflag = false
 
                 roundThingy = 0
-                thingyMaxIdx30s = Array(1){Array(13){0}}
-                thingyConfidence30s = Array(1){FloatArray(13){0f}}
+                thingyMaxIdx30s = Array(1){Array(14){0}}
+                thingyConfidence30s = Array(1){FloatArray(14){0f}}
 
                 roundRespeck = 0
-                respeckMaxIdx30s = Array(1){Array(13){0}}
-                respeckConfidence30s = Array(1){FloatArray(13){0f}}
+                respeckMaxIdx30s = Array(1){Array(14){0}}
+                respeckConfidence30s = Array(1){FloatArray(14){0f}}
             }
         }
-//        setupSpinner()
-
-//        setupButton()
-//
-//        setupCharts()
-
-//        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(50*6*4)
-//        byteBuffer.order(ByteOrder.nativeOrder())
-//        for (i in 0 until 50) {
-//            for (j in test[i].indices) {
-//                byteBuffer.putFloat(test[i][j].toFloat())
-//            }
-//        }
-//        val output = Array(1){FloatArray(13){0f}}
-//        Log.v("Init output and print", "init" + output[0][0])
-//        val outputbuffer = ByteBuffer.allocateDirect(13*4)
-//        REStflite.run(byteBuffer,output)
-//        var s: String = printOutput(output)
-//        Log.v("predict and the output changed", "prediction " + s)
-//        var maxIdx: Int = getMaxIdx(output)
-//        var label: String = labelsMap.getValue(maxIdx)
-//        Log.v("label", "label " + label)
-//        Log.v("Confidence", "confi " + output[0][maxIdx])
-//
-//
-//        Respeckprediction.text  =  "Activity: " + label
-//        Respeckconfidence.text = output[0][maxIdx].toString()
 
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
@@ -313,7 +287,7 @@ class LiveDataActivity : AppCompatActivity() {
                                 RESbyteBuffer.putFloat(respeck_data[i][j].toFloat())
                             }
                         }
-                        var RESoutput = Array(1) { FloatArray(13) { 0f } }
+                        var RESoutput = Array(1) { FloatArray(14) { 0f } }
                         REStflite.run(RESbyteBuffer, RESoutput)
                         var maxIdxRespeck = getMaxIdx(RESoutput)
 
@@ -341,7 +315,7 @@ class LiveDataActivity : AppCompatActivity() {
                                     respeckByteBuffer30s.putFloat(respeck_data_30s[i][j])
                                 }
                             }
-                            var respeck30sOutput = Array(1) { FloatArray(13) { 0f } }
+                            var respeck30sOutput = Array(1) { FloatArray(14) { 0f } }
                             REStflite.run(respeckByteBuffer30s, respeck30sOutput)
 
                             var maxIdxrespeck30s = getMaxIdx(respeck30sOutput)
@@ -360,8 +334,8 @@ class LiveDataActivity : AppCompatActivity() {
                                 STAT_res_2_con = (respeckConfidence30s[0][respeckSecondFinalIdx] / 8).toString()
 
                                 roundRespeck = 0
-                                respeckMaxIdx30s = Array(1){Array(13){0}}
-                                respeckConfidence30s = Array(1){FloatArray(13){0f}}
+                                respeckMaxIdx30s = Array(1){Array(14){0}}
+                                respeckConfidence30s = Array(1){FloatArray(14){0f}}
                             }
                         }
 
@@ -489,7 +463,7 @@ class LiveDataActivity : AppCompatActivity() {
                                 thingyByteBuffer.putFloat(thingy_data[i][j].toFloat())
                             }
                         }
-                        var thingyOutput = Array(1) { FloatArray(13) { 0f } }
+                        var thingyOutput = Array(1) { FloatArray(14) { 0f } }
                         THItflite.run(thingyByteBuffer, thingyOutput)
                         var maxIdxThingy = getMaxIdx(thingyOutput)
 
@@ -534,7 +508,7 @@ class LiveDataActivity : AppCompatActivity() {
                                     thingyByteBuffer30s.putFloat(thingy_data_30s[i][j])
                                 }
                             }
-                            var thingy30sOutput = Array(1) { FloatArray(13) { 0f } }
+                            var thingy30sOutput = Array(1) { FloatArray(14) { 0f } }
                             THItflite.run(thingyByteBuffer30s, thingy30sOutput)
 
                             var maxIdxThingy30s = getMaxIdx(thingy30sOutput)
@@ -553,8 +527,8 @@ class LiveDataActivity : AppCompatActivity() {
                                 STAT_thi_2_con = (thingyConfidence30s[0][thingySecondFinalIdx] / 8).toString()
 
                                 roundThingy = 0
-                                thingyMaxIdx30s = Array(1){Array(13){0}}
-                                thingyConfidence30s = Array(1){FloatArray(13){0f}}
+                                thingyMaxIdx30s = Array(1){Array(14){0}}
+                                thingyConfidence30s = Array(1){FloatArray(14){0f}}
                             }
                         }
 
@@ -584,7 +558,7 @@ class LiveDataActivity : AppCompatActivity() {
                                     allByteBuffer30s.putFloat(all_data_30s[i][j])
                                 }
                             }
-                            var all30sOutput = Array(1) { FloatArray(13) { 0f } }
+                            var all30sOutput = Array(1) { FloatArray(14) { 0f } }
                             ALLtflite.run(allByteBuffer30s, all30sOutput)
 
                             var maxIdxAll30s = getMaxIdx(all30sOutput)
@@ -603,8 +577,8 @@ class LiveDataActivity : AppCompatActivity() {
                                 STAT_all_2_con = (thingyConfidence30s[0][allSecondFinalIdx] / 8).toString()
 
                                 roundAll = 0
-                                allMaxIdx30s = Array(1){Array(13){0}}
-                                allConfidence30s = Array(1){FloatArray(13){0f}}
+                                allMaxIdx30s = Array(1){Array(14){0}}
+                                allConfidence30s = Array(1){FloatArray(14){0f}}
                             }
                         }
 
@@ -640,7 +614,7 @@ class LiveDataActivity : AppCompatActivity() {
                                 allByteBuffer.putFloat(all_data[i][j].toFloat())
                             }
                         }
-                        var allOutput = Array(1) { FloatArray(13) { 0f } }
+                        var allOutput = Array(1) { FloatArray(14) { 0f } }
                         ALLtflite.run(allByteBuffer, allOutput)
                         var maxIdxAll = getMaxIdx(allOutput)
 
@@ -683,7 +657,7 @@ class LiveDataActivity : AppCompatActivity() {
 
         var max: Float = 0f
         var maxIdx: Int = 0
-        for(i in 0 until 13){
+        for(i in 0 until 14){
             if (max<temp[0][i]) {
                 max = temp[0][i]
                 maxIdx = i
@@ -696,7 +670,7 @@ class LiveDataActivity : AppCompatActivity() {
 
         var temp2 = 0f
         var secondMaxIdx: Int = 0
-        for(i in 0 until 13){
+        for(i in 0 until 14){
             if (temp2 < temp[0][i] && max != i) {
                 temp2 = temp[0][i]
                 secondMaxIdx = i
@@ -708,42 +682,12 @@ class LiveDataActivity : AppCompatActivity() {
     private fun printOutput(temp:Array<FloatArray> ): String {
 
         var s: String = ""
-        for(i in 0 until 13){
+        for(i in 0 until 14){
             s = s+temp[0][i]
         }
         return s
     }
 
-    private fun setupButton(){
-//        RecordingButton = findViewById(R.id.start_button)
-//
-//
-//
-//        RecordingButton.setOnClickListener {
-//
-//            getInputs()
-//
-//            if (sensorType == "Respeck" && !respeckOn) {
-//                Toast.makeText(this, "Respeck is not on! Check connection.", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//
-//
-//            if (sensorType == "Thingy" && !thingyOn) {
-//                Toast.makeText(this, "Thingy is not on! Check connection.", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//
-//            Toast.makeText(this, "Starting recording", Toast.LENGTH_SHORT).show()
-//
-////            disableView(RecordingButton)    //
-////
-////            disableView(sensorTypeSpinner)
-//
-//            startRecording()
-//        }
-
-    }
 
     private fun startRecording() {
 
@@ -757,20 +701,6 @@ class LiveDataActivity : AppCompatActivity() {
         }
     }
 
-//    private fun count(){   //once the thingy or respeck data array is full ,then stop recording
-//        if(counttime == 49){
-//            Toast.makeText(this, "Stop recording", Toast.LENGTH_SHORT).show()
-//            mIsThingyRecording = false   //stop the recording
-//            mIsRespeckRecording = false  //stop the recording
-////            enableView(RecordingButton)
-////            enableView(sensorTypeSpinner)
-//            counttime = 0;
-//            for(i in 0 until 50)
-//                for(j in 0 until 6) {
-//                    Log.v("datarecord:", respeck_data[i][j].toString())
-//                }
-//        }
-//    }
 
     private fun getInputs(){
         sensorType = sensorTypeSpinner.selectedItem.toString()
