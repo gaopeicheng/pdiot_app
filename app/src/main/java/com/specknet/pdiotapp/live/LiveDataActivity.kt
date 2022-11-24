@@ -34,7 +34,6 @@ import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.Semaphore
 
 
 class LiveDataActivity : AppCompatActivity() {
@@ -91,7 +90,10 @@ class LiveDataActivity : AppCompatActivity() {
     var countTimeAllThingy = 0
     var countTimeAllRespeck = 0
 
-    val lock = Semaphore(1)
+    var lockThingy = 0
+    var lockRespeck = 1
+    var lockThingy30s = 0
+    var lockRespeck30s = 1
 
     var countTimeRepseck30s = 0
     var countTimeThingy30s = 0
@@ -363,12 +365,10 @@ class LiveDataActivity : AppCompatActivity() {
                             }
                         }
 
-//                        while (lockRespeck <= 0) {
-//                            if (lockRespeck > 0) break
-//                        }
-//                        lockRespeck--
-
-                        lock.acquireUninterruptibly()
+                        while (lockRespeck30s <= 0) {
+                            if (lockRespeck30s > 0) break
+                        }
+                        lockRespeck30s--
 
                         if (countTimeAllRespeck30s < 50) {
                             all_data_30s[countTimeAllRespeck30s][9] = respeckLiveData.accelX
@@ -382,16 +382,14 @@ class LiveDataActivity : AppCompatActivity() {
                         else {
                             countTimeAllRespeck30s = 0
                         }
-//                        lockThingy++
-                        lock.release()
+
+                        lockThingy30s++
                     }
 
-//                    while (lockRespeck <= 0) {
-//                        if (lockRespeck > 0) break
-//                    }
-//                    lockRespeck--
-
-                    lock.acquireUninterruptibly()
+                    while (lockRespeck <= 0) {
+                        if (lockRespeck > 0) break
+                    }
+                    lockRespeck--
 
                     if (countTimeAllRespeck < 50) {
                         all_data[countTimeAllRespeck][9] = respeckLiveData.accelX
@@ -406,8 +404,8 @@ class LiveDataActivity : AppCompatActivity() {
                     else {
                         countTimeAllRespeck = 0
                     }
-                    lock.release()
-//                    lockThingy++
+
+                    lockThingy++
 
                     runOnUiThread {    //real-time data show on the ui
                         respeck_accel_x.text = "accel_x = " + xRespeck.toString()
@@ -560,11 +558,10 @@ class LiveDataActivity : AppCompatActivity() {
                             }
                         }
 
-//                        while (lockThingy <= 0) {
-//                            if (lockThingy > 0) break
-//                        }
-//                        lockThingy--
-                        lock.acquireUninterruptibly()
+                        while (lockThingy30s <= 0) {
+                            if (lockThingy30s > 0) break
+                        }
+                        lockThingy30s--
 
                         if (countTimeAllThingy30s < 50) {
                             all_data_30s[countTimeAllThingy30s][0] = thingyLiveData.accelX
@@ -610,16 +607,14 @@ class LiveDataActivity : AppCompatActivity() {
                                 allConfidence30s = Array(1){FloatArray(14){0f}}
                             }
                         }
-//                        lockRespeck++
-                        lock.release()
+
+                        lockRespeck30s++
                     }
 
-//                    while (lockThingy <= 0) {
-//                        if (lockThingy > 0) break
-//                    }
-//                    lockThingy--
-
-                    lock.acquireUninterruptibly()
+                    while (lockThingy <= 0) {
+                        if (lockThingy > 0) break
+                    }
+                    lockThingy--
 
                     if (countTimeAllThingy < 50) {
                         all_data[countTimeAllThingy][0] = thingyLiveData.accelX
@@ -652,8 +647,7 @@ class LiveDataActivity : AppCompatActivity() {
                         ALL_pred_act = labelsMap.getValue(maxIdxAll)
                         ALL_pred_con = allOutput[0][maxIdxAll].toString()
                     }
-//                    lockRespeck++
-                    lock.release()
+                    lockRespeck++
 
                     runOnUiThread {
                         ALL_Act.text = "Activity: " + ALL_pred_act
