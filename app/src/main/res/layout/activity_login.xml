@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".login.LogingActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background= "#F5F8FA">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/edit_text"
+            android:textColor="#14171A"
+            android:background="#E1E8ED"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Log In"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="50sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User name"
+            android:textColor="#14171A"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textSize="32sp" />
+
+        <EditText
+            android:background="#E1E8ED"
+            android:id="@+id/username"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Please input the user name"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="#14171A"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textSize="32sp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:background="#E1E8ED"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Please input the password"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_width="match_parent">
+
+
+            <Button
+                android:id="@+id/loginButton_inLoginPage"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Log in"
+                android:textAlignment="center"
+                android:background="@drawable/button"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/sinupButton_inLoginPage"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginLeft="55dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="sign up"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/historyButton_inLoginPage"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/button"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="history"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+    </LinearLayout>
+</ScrollView>
